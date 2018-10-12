@@ -14,6 +14,8 @@ namespace INFOIBV
     {
         private Bitmap InputImage;
         private Bitmap OutputImage;
+        Color[,] Image;
+        Color[,] newImage;
 
         public INFOIBV()
         {
@@ -38,27 +40,15 @@ namespace INFOIBV
 
         private void applyButton_Click(object sender, EventArgs e)
         {
-            if (InputImage == null) return;                                 // Get out if no input image
-            if (OutputImage != null) OutputImage.Dispose();                 // Reset output image
-            OutputImage = new Bitmap(InputImage.Size.Width, InputImage.Size.Height); // Create new output image
-            Color[,] Image = new Color[InputImage.Size.Width, InputImage.Size.Height]; // Create array to speed-up operations (Bitmap functions are very slow)
-
-            // Setup progress bar
-            progressBar.Visible = true;
-            progressBar.Minimum = 1;
-            progressBar.Maximum = InputImage.Size.Width * InputImage.Size.Height;
-            progressBar.Value = 1;
-            progressBar.Step = 1;
-
-            // Copy input Bitmap to array            
-            for (int x = 0; x < InputImage.Size.Width; x++)
+            if (InputImage == null)
             {
-                for (int y = 0; y < InputImage.Size.Height; y++)
-                {
-                    Image[x, y] = InputImage.GetPixel(x, y);                // Set pixel color in array at (x,y)
-                }
+                //textBox2.Text = "Please Load an image first.";
+                return;
             }
 
+            resetForApply();
+
+            /*
             //==========================================================================================
             // TODO: include here your own code
             // example: create a negative image
@@ -73,6 +63,7 @@ namespace INFOIBV
                 }
             }
             //==========================================================================================
+            */
 
             // Copy array to output Bitmap
             for (int x = 0; x < InputImage.Size.Width; x++)
@@ -97,6 +88,90 @@ namespace INFOIBV
         private void RightAsInput_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        void resetForApply()
+        {
+            if (InputImage == null) return;                                 // Get out if no input image
+            if (OutputImage != null) OutputImage.Dispose();                 // Reset output image
+            OutputImage = new Bitmap(InputImage.Size.Width, InputImage.Size.Height); // Create new output image
+            Image = new Color[InputImage.Size.Width, InputImage.Size.Height]; // Create array to speed-up operations (Bitmap functions are very slow)
+            newImage = new Color[InputImage.Size.Width, InputImage.Size.Height];
+
+            // Setup progress bar
+            progressBar.Visible = true;
+            progressBar.Minimum = 1;
+            progressBar.Maximum = InputImage.Size.Width * InputImage.Size.Height;
+            progressBar.Value = 1;
+            progressBar.Step = 1;
+
+            // Copy input Bitmap to array            
+            for (int x = 0; x < InputImage.Size.Width; x++)
+            {
+                for (int y = 0; y < InputImage.Size.Height; y++)
+                {
+                    Image[x, y] = InputImage.GetPixel(x, y);                // Set pixel color in array at (x,y)
+                }
+            }
+        }
+
+        void toOutputBitmap()
+        {
+            Image = newImage;
+            // Copy array to output Bitmap
+            for (int x = 0; x < InputImage.Size.Width; x++)
+            {
+                for (int y = 0; y < InputImage.Size.Height; y++)
+                {
+                    OutputImage.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
+                    //OutputImage.SetPixel(x, y, newImage[x, y]);
+                }
+            }
+
+            pictureBox2.Image = (Image)OutputImage;                         // Display output image
+            progressBar.Visible = false;                                    // Hide progress bar
+        }
+
+        int[,] ParseMatrix()
+        {
+            try
+            {
+                // split the rows
+                string input = textBox1.Text;
+                string[] rows = input.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                // split the columns and add to a 2D array
+
+                int[,] matrix = new int[rows.Length, rows.Length]; //creer M x M matrix afhankelijk van ingevoerde values
+
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    // alle 3 de rijen parsen
+                    int[] column = Array.ConvertAll(rows[i].Split(' '), int.Parse);
+
+                    if (column.Length != rows.Length)
+                    {
+                        throw new Exception("Provide a square matrix, with equal number of rows and columns");
+                    }
+                    if (column.Length % 2 == 0)
+                        throw new Exception("Provide a square matrix, with an odd number of columns and rows");
+
+
+                    // deze kolom op de goede plek in de matrix zetten
+                    for (int j = 0; j < rows.Length; j++)
+                        matrix[i, j] = column[j];
+                }
+
+                return matrix;
+                //de matrix is geparsed en de waardes zijn nu op te halen
+
+
+            }
+            catch (Exception e)
+            {
+                this.textBox2.Text = e.Message;
+                return null;
+            }
         }
     }
 }
