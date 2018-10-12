@@ -22,15 +22,10 @@ namespace INFOIBV
             InitializeComponent();
         }
 
-        private void LoadImageButton1_Click(object sender, EventArgs e)
-        {
-            LoadImage(1);
-        }
+        private void LoadImageButton1_Click(object sender, EventArgs e) { LoadImage(1); }
+        private void LoadImageButton2_Click(object sender, EventArgs e) { LoadImage(2); }
 
-        private void LoadImageButton2_Click(object sender, EventArgs e)
-        {
-            LoadImage(2);
-        }
+
 
         void LoadImage(int imageNumber)
         {
