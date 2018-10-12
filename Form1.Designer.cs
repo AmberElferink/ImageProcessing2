@@ -37,7 +37,7 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.kernelInput = new System.Windows.Forms.TextBox();
             this.RightAsInput = new System.Windows.Forms.CheckBox();
             this.ErosionRadio = new System.Windows.Forms.RadioButton();
             this.DilationRadio = new System.Windows.Forms.RadioButton();
@@ -128,13 +128,13 @@
             this.progressBar.TabIndex = 6;
             this.progressBar.Visible = false;
             // 
-            // textBox1
+            // kernelInput
             // 
-            this.textBox1.Location = new System.Drawing.Point(1079, 78);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(216, 128);
-            this.textBox1.TabIndex = 7;
+            this.kernelInput.Location = new System.Drawing.Point(1079, 78);
+            this.kernelInput.Multiline = true;
+            this.kernelInput.Name = "kernelInput";
+            this.kernelInput.Size = new System.Drawing.Size(216, 128);
+            this.kernelInput.TabIndex = 7;
             // 
             // RightAsInput
             // 
@@ -261,7 +261,7 @@
             this.Controls.Add(this.DilationRadio);
             this.Controls.Add(this.ErosionRadio);
             this.Controls.Add(this.RightAsInput);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.kernelInput);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.saveButton);
@@ -291,7 +291,7 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox kernelInput;
         private System.Windows.Forms.CheckBox RightAsInput;
         private System.Windows.Forms.RadioButton ErosionRadio;
         private System.Windows.Forms.RadioButton DilationRadio;
