@@ -12,10 +12,14 @@ namespace INFOIBV
 {
     public partial class INFOIBV : Form
     {
-        private Bitmap InputImage;
-        private Bitmap OutputImage;
+        private Bitmap InputImage1;
+        private Bitmap OutputImage1;
         Color[,] Image;
         Color[,] newImage;
+
+        int alow = 0;
+        int ahigh = 0;
+        bool isBinary = false;
 
         public INFOIBV()
         {
@@ -28,21 +32,21 @@ namespace INFOIBV
             {
                 string file = openImageDialog.FileName;                     // Get the file name
                 imageFileName.Text = file;                                  // Show file name
-                if (InputImage != null) InputImage.Dispose();               // Reset image
-                InputImage = new Bitmap(file);                              // Create new Bitmap from file
-                if (InputImage.Size.Height <= 0 || InputImage.Size.Width <= 0 ||
-                    InputImage.Size.Height > 512 || InputImage.Size.Width > 512) // Dimension check
+                if (InputImage1 != null) InputImage1.Dispose();               // Reset image
+                InputImage1 = new Bitmap(file);                              // Create new Bitmap from file
+                if (InputImage1.Size.Height <= 0 || InputImage1.Size.Width <= 0 ||
+                    InputImage1.Size.Height > 512 || InputImage1.Size.Width > 512) // Dimension check
                     MessageBox.Show("Error in image dimensions (have to be > 0 and <= 512)");
                 else
-                    pictureBox1.Image = (Image) InputImage;                 // Display input image
+                    pictureBox1.Image = (Image) InputImage1;                 // Display input image
             }
         }
 
         private void applyButton_Click(object sender, EventArgs e)
         {
-            if (InputImage == null)
+            if (InputImage1 == null)
             {
-                textBox1.Text = "Please Load an image first.";
+                //MessageBox2.Text = "Please Load an image first.";
                 return;
             }
 
@@ -65,24 +69,26 @@ namespace INFOIBV
             //==========================================================================================
             */
 
+            NoAutoContrHistogram();
+
             // Copy array to output Bitmap
-            for (int x = 0; x < InputImage.Size.Width; x++)
+            for (int x = 0; x < InputImage1.Size.Width; x++)
             {
-                for (int y = 0; y < InputImage.Size.Height; y++)
+                for (int y = 0; y < InputImage1.Size.Height; y++)
                 {
-                    OutputImage.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
+                    OutputImage1.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
                 }
             }
             
-            pictureBox2.Image = (Image)OutputImage;                         // Display output image
+            pictureBox2.Image = (Image)OutputImage1;                         // Display output image
             progressBar.Visible = false;                                    // Hide progress bar
         }
         
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (OutputImage == null) return;                                // Get out if no output image
+            if (OutputImage1 == null) return;                                // Get out if no output image
             if (saveImageDialog.ShowDialog() == DialogResult.OK)
-                OutputImage.Save(saveImageDialog.FileName);                 // Save the output image
+                OutputImage1.Save(saveImageDialog.FileName);                 // Save the output image
         }
 
         private void RightAsInput_CheckedChanged(object sender, EventArgs e)
@@ -92,25 +98,25 @@ namespace INFOIBV
 
         void resetForApply()
         {
-            if (InputImage == null) return;                                 // Get out if no input image
-            if (OutputImage != null) OutputImage.Dispose();                 // Reset output image
-            OutputImage = new Bitmap(InputImage.Size.Width, InputImage.Size.Height); // Create new output image
-            Image = new Color[InputImage.Size.Width, InputImage.Size.Height]; // Create array to speed-up operations (Bitmap functions are very slow)
-            newImage = new Color[InputImage.Size.Width, InputImage.Size.Height];
+            if (InputImage1 == null) return;                                 // Get out if no input image
+            if (OutputImage1 != null) OutputImage1.Dispose();                 // Reset output image
+            OutputImage1 = new Bitmap(InputImage1.Size.Width, InputImage1.Size.Height); // Create new output image
+            Image = new Color[InputImage1.Size.Width, InputImage1.Size.Height]; // Create array to speed-up operations (Bitmap functions are very slow)
+            newImage = new Color[InputImage1.Size.Width, InputImage1.Size.Height];
 
             // Setup progress bar
             progressBar.Visible = true;
             progressBar.Minimum = 1;
-            progressBar.Maximum = InputImage.Size.Width * InputImage.Size.Height;
+            progressBar.Maximum = InputImage1.Size.Width * InputImage1.Size.Height;
             progressBar.Value = 1;
             progressBar.Step = 1;
 
             // Copy input Bitmap to array            
-            for (int x = 0; x < InputImage.Size.Width; x++)
+            for (int x = 0; x < InputImage1.Size.Width; x++)
             {
-                for (int y = 0; y < InputImage.Size.Height; y++)
+                for (int y = 0; y < InputImage1.Size.Height; y++)
                 {
-                    Image[x, y] = InputImage.GetPixel(x, y);                // Set pixel color in array at (x,y)
+                    Image[x, y] = InputImage1.GetPixel(x, y);                // Set pixel color in array at (x,y)
                 }
             }
         }
@@ -119,16 +125,16 @@ namespace INFOIBV
         {
             Image = newImage;
             // Copy array to output Bitmap
-            for (int x = 0; x < InputImage.Size.Width; x++)
+            for (int x = 0; x < InputImage1.Size.Width; x++)
             {
-                for (int y = 0; y < InputImage.Size.Height; y++)
+                for (int y = 0; y < InputImage1.Size.Height; y++)
                 {
-                    OutputImage.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
+                    OutputImage1.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
                     //OutputImage.SetPixel(x, y, newImage[x, y]);
                 }
             }
 
-            pictureBox2.Image = (Image)OutputImage;                         // Display output image
+            pictureBox2.Image = (Image)OutputImage1;                         // Display output image
             progressBar.Visible = false;                                    // Hide progress bar
         }
 
@@ -137,7 +143,7 @@ namespace INFOIBV
             try
             {
                 // split the rows
-                string input = textBox1.Text;
+                string input = kernelInput.Text;
                 string[] rows = input.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
                 // split the columns and add to a 2D array
@@ -169,10 +175,134 @@ namespace INFOIBV
             }
             catch (Exception e)
             {
-                //DIT MOET EIGENLIJK TEXTBOX 2 ZIJN KEEP THAT IN MIND PLS
-                this.textBox1.Text = e.Message;
+                //DIT MOET EIGENLIJK MessageBox2 ZIJN KEEP THAT IN MIND PLS
+                this.kernelInput.Text = e.Message;
                 return null;
             }
         }
+
+        void NoAutoContrHistogram()
+        {
+            int[] histogram = new int[256];     //histogram aanmaken, alow en ahigh initialiseren
+            int valueCount = 0;
+
+
+            for (int x = 0; x < InputImage1.Size.Width; x++)
+            {
+                for (int y = 0; y < InputImage1.Size.Height; y++)
+                {
+                    Color pixelColor = Image[x, y];                                 // Get the pixel color at coordinate (x,y)
+                    int grey = (pixelColor.R + pixelColor.G + pixelColor.B) / 3;    // aanmaken grijswaarde op basis van RGB-values
+                    Color updatedColor = Color.FromArgb(grey, grey, grey);          // toepassen grijswaarde
+
+                    histogram[grey]++;                                              // histogram updaten
+                    progressBar.PerformStep();                                      // Increment progress bar
+                }
+            }
+
+            /*
+            Console.WriteLine("Histogram:");                                        // histogram wordt geprint
+            for (int a = 0; a < 256; a++)
+            {
+                Console.WriteLine(a + ": " + histogram[a]);
+            }
+            */
+
+
+            // LATER NOG NAAR ALOW/AHIGH KIJKEN VOOR BINAIRE IMAGES DIE NIET 0/255 ZIJN
+            for (int i = 0; i < histogram.Length; i++)
+            {
+                if (histogram[i] > 0) valueCount++;
+            }
+            if (valueCount == 2)
+            {
+                isBinary = true;
+            }
+        }
+
+        int CalculateNewColor(int x, int y, int[,] matrix, int halfBoxSize, bool divideByTotal = true)
+        {
+            int linearColor = 0;
+            int matrixTotal = 0;                // totale waarde van alle weights van de matrix bij elkaar opgeteld
+            for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
+            {
+                for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                {
+                    linearColor = linearColor + (Image[x + a, y + b].R * matrix[a + halfBoxSize, b + halfBoxSize]);
+                    // weight van filter wordt per kernel pixel toegepast op image pixel
+                    matrixTotal = matrixTotal + matrix[a + halfBoxSize, b + halfBoxSize];
+                    // weight wordt opgeteld bij totaalsom van weights
+                }
+            }
+            if (divideByTotal == true) // Voor Edgestrength moet niet door het totaal gedeeld, dus kan hij uitgezet worden.
+                linearColor = linearColor / matrixTotal;
+
+            return linearColor;
+        }
+
+        int CalculateErosionBinary(int x, int y, int[,] matrix, int halfBoxSize)
+        {
+            int newColor = 0;
+            for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
+            {
+                for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                {
+                }
+            }
+                    return 0;
+        }
+
+        int CalculateDilationBinary(int x, int y, int[,] matrix, int halfBoxSize)
+        {
+            int newColor = 0;
+            return 0;
+        }
+
+        int CalculateErosion(int x, int y, int[,] matrix, int halfBoxSize)
+        {
+            int newColor = 0;
+            return 0;
+        }
+
+        int CalculateDilation(int x, int y, int[,] matrix, int halfBoxSize)
+        {
+            int newColor = 0;
+            return 0;
+        }
+
+        void ApplyErosionDilationFilter(bool isErosion, bool isBinary)
+        {
+            int[,] matrix = ParseMatrix();
+            int newColor = 0;
+            if (matrix != null)
+            {
+                // linear boxfilter
+                int boxsize = matrix.GetLength(0);                                           // lengte matrix wordt uitgelezen
+                int halfBoxSize = (boxsize - 1) / 2;                                        // hulpvariabele voor berekeningen
+
+                //loop over de image heen
+                for (int x = halfBoxSize; x < InputImage1.Size.Width - halfBoxSize; x++)
+                {
+                    for (int y = halfBoxSize; y < InputImage1.Size.Height - halfBoxSize; y++)
+                    {
+                        if (isBinary)
+                        {
+                            if (isErosion) newColor = CalculateErosionBinary(x, y, matrix, halfBoxSize);
+                            else newColor = CalculateDilationBinary(x, y, matrix, halfBoxSize);
+                        }
+                        else
+                        {
+                            if (isErosion) newColor = CalculateErosion(x, y, matrix, halfBoxSize);
+                            else newColor = CalculateDilation(x, y, matrix, halfBoxSize);
+                        }
+                        //bekijk voor elke pixel op de image wat de nieuwe kleur moet worden
+                        Color updatedColor = Color.FromArgb(newColor, newColor, newColor);
+                        newImage[x, y] = updatedColor;
+                        progressBar.PerformStep();
+                    }
+                }
+            }
+            toOutputBitmap();
+        }   
     }
 }

@@ -37,7 +37,7 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.kernelInput = new System.Windows.Forms.TextBox();
             this.RightAsInput = new System.Windows.Forms.CheckBox();
             this.ErosionRadio = new System.Windows.Forms.RadioButton();
             this.DilationRadio = new System.Windows.Forms.RadioButton();
@@ -54,9 +54,10 @@
             // 
             // LoadImageButton
             // 
-            this.LoadImageButton.Location = new System.Drawing.Point(12, 12);
+            this.LoadImageButton.Location = new System.Drawing.Point(16, 15);
+            this.LoadImageButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.LoadImageButton.Name = "LoadImageButton";
-            this.LoadImageButton.Size = new System.Drawing.Size(98, 23);
+            this.LoadImageButton.Size = new System.Drawing.Size(131, 28);
             this.LoadImageButton.TabIndex = 0;
             this.LoadImageButton.Text = "Load image...";
             this.LoadImageButton.UseVisualStyleBackColor = true;
@@ -70,26 +71,29 @@
             // 
             // imageFileName
             // 
-            this.imageFileName.Location = new System.Drawing.Point(116, 14);
+            this.imageFileName.Location = new System.Drawing.Point(155, 17);
+            this.imageFileName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.imageFileName.Name = "imageFileName";
             this.imageFileName.ReadOnly = true;
-            this.imageFileName.Size = new System.Drawing.Size(316, 20);
+            this.imageFileName.Size = new System.Drawing.Size(420, 22);
             this.imageFileName.TabIndex = 1;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(13, 45);
+            this.pictureBox1.Location = new System.Drawing.Point(17, 55);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox1.Size = new System.Drawing.Size(683, 630);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
             // applyButton
             // 
-            this.applyButton.Location = new System.Drawing.Point(1079, 11);
+            this.applyButton.Location = new System.Drawing.Point(1439, 14);
+            this.applyButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.applyButton.Name = "applyButton";
-            this.applyButton.Size = new System.Drawing.Size(103, 23);
+            this.applyButton.Size = new System.Drawing.Size(137, 28);
             this.applyButton.TabIndex = 3;
             this.applyButton.Text = "Apply";
             this.applyButton.UseVisualStyleBackColor = true;
@@ -102,9 +106,10 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(1200, 11);
+            this.saveButton.Location = new System.Drawing.Point(1600, 14);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(95, 23);
+            this.saveButton.Size = new System.Drawing.Size(127, 28);
             this.saveButton.TabIndex = 4;
             this.saveButton.Text = "Save as BMP...";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -112,36 +117,40 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(531, 45);
+            this.pictureBox2.Location = new System.Drawing.Point(708, 55);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox2.Size = new System.Drawing.Size(683, 630);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(587, 14);
+            this.progressBar.Location = new System.Drawing.Point(783, 17);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(276, 20);
+            this.progressBar.Size = new System.Drawing.Size(368, 25);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 6;
             this.progressBar.Visible = false;
             // 
-            // textBox1
+            // kernelInput
             // 
-            this.textBox1.Location = new System.Drawing.Point(1079, 78);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(216, 128);
-            this.textBox1.TabIndex = 7;
+            this.kernelInput.Location = new System.Drawing.Point(1439, 96);
+            this.kernelInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kernelInput.Multiline = true;
+            this.kernelInput.Name = "kernelInput";
+            this.kernelInput.Size = new System.Drawing.Size(287, 157);
+            this.kernelInput.TabIndex = 7;
             // 
             // RightAsInput
             // 
             this.RightAsInput.AutoSize = true;
-            this.RightAsInput.Location = new System.Drawing.Point(1079, 45);
+            this.RightAsInput.Location = new System.Drawing.Point(1439, 55);
+            this.RightAsInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.RightAsInput.Name = "RightAsInput";
-            this.RightAsInput.Size = new System.Drawing.Size(134, 17);
+            this.RightAsInput.Size = new System.Drawing.Size(176, 21);
             this.RightAsInput.TabIndex = 8;
             this.RightAsInput.Text = "Right image(s) as Input";
             this.RightAsInput.UseVisualStyleBackColor = true;
@@ -150,9 +159,10 @@
             // ErosionRadio
             // 
             this.ErosionRadio.AutoSize = true;
-            this.ErosionRadio.Location = new System.Drawing.Point(1079, 222);
+            this.ErosionRadio.Location = new System.Drawing.Point(1439, 273);
+            this.ErosionRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ErosionRadio.Name = "ErosionRadio";
-            this.ErosionRadio.Size = new System.Drawing.Size(60, 17);
+            this.ErosionRadio.Size = new System.Drawing.Size(77, 21);
             this.ErosionRadio.TabIndex = 9;
             this.ErosionRadio.TabStop = true;
             this.ErosionRadio.Text = "Erosion";
@@ -161,9 +171,10 @@
             // DilationRadio
             // 
             this.DilationRadio.AutoSize = true;
-            this.DilationRadio.Location = new System.Drawing.Point(1079, 246);
+            this.DilationRadio.Location = new System.Drawing.Point(1439, 303);
+            this.DilationRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DilationRadio.Name = "DilationRadio";
-            this.DilationRadio.Size = new System.Drawing.Size(60, 17);
+            this.DilationRadio.Size = new System.Drawing.Size(76, 21);
             this.DilationRadio.TabIndex = 10;
             this.DilationRadio.TabStop = true;
             this.DilationRadio.Text = "Dilation";
@@ -172,9 +183,10 @@
             // OpeningRadio
             // 
             this.OpeningRadio.AutoSize = true;
-            this.OpeningRadio.Location = new System.Drawing.Point(1079, 291);
+            this.OpeningRadio.Location = new System.Drawing.Point(1439, 358);
+            this.OpeningRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.OpeningRadio.Name = "OpeningRadio";
-            this.OpeningRadio.Size = new System.Drawing.Size(65, 17);
+            this.OpeningRadio.Size = new System.Drawing.Size(83, 21);
             this.OpeningRadio.TabIndex = 11;
             this.OpeningRadio.TabStop = true;
             this.OpeningRadio.Text = "Opening";
@@ -183,9 +195,10 @@
             // ClosingRadio
             // 
             this.ClosingRadio.AutoSize = true;
-            this.ClosingRadio.Location = new System.Drawing.Point(1079, 315);
+            this.ClosingRadio.Location = new System.Drawing.Point(1439, 388);
+            this.ClosingRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ClosingRadio.Name = "ClosingRadio";
-            this.ClosingRadio.Size = new System.Drawing.Size(59, 17);
+            this.ClosingRadio.Size = new System.Drawing.Size(75, 21);
             this.ClosingRadio.TabIndex = 12;
             this.ClosingRadio.TabStop = true;
             this.ClosingRadio.Text = "Closing";
@@ -194,9 +207,10 @@
             // MinRadio
             // 
             this.MinRadio.AutoSize = true;
-            this.MinRadio.Location = new System.Drawing.Point(1079, 362);
+            this.MinRadio.Location = new System.Drawing.Point(1439, 446);
+            this.MinRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MinRadio.Name = "MinRadio";
-            this.MinRadio.Size = new System.Drawing.Size(42, 17);
+            this.MinRadio.Size = new System.Drawing.Size(51, 21);
             this.MinRadio.TabIndex = 13;
             this.MinRadio.TabStop = true;
             this.MinRadio.Text = "Min";
@@ -205,9 +219,10 @@
             // MaxRadio
             // 
             this.MaxRadio.AutoSize = true;
-            this.MaxRadio.Location = new System.Drawing.Point(1079, 386);
+            this.MaxRadio.Location = new System.Drawing.Point(1439, 475);
+            this.MaxRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaxRadio.Name = "MaxRadio";
-            this.MaxRadio.Size = new System.Drawing.Size(45, 17);
+            this.MaxRadio.Size = new System.Drawing.Size(54, 21);
             this.MaxRadio.TabIndex = 14;
             this.MaxRadio.TabStop = true;
             this.MaxRadio.Text = "Max";
@@ -216,9 +231,10 @@
             // ValueRadio
             // 
             this.ValueRadio.AutoSize = true;
-            this.ValueRadio.Location = new System.Drawing.Point(1079, 432);
+            this.ValueRadio.Location = new System.Drawing.Point(1439, 532);
+            this.ValueRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ValueRadio.Name = "ValueRadio";
-            this.ValueRadio.Size = new System.Drawing.Size(97, 17);
+            this.ValueRadio.Size = new System.Drawing.Size(125, 21);
             this.ValueRadio.TabIndex = 15;
             this.ValueRadio.TabStop = true;
             this.ValueRadio.Text = "Value Counting";
@@ -227,9 +243,10 @@
             // BoundaryRadio
             // 
             this.BoundaryRadio.AutoSize = true;
-            this.BoundaryRadio.Location = new System.Drawing.Point(1079, 473);
+            this.BoundaryRadio.Location = new System.Drawing.Point(1439, 582);
+            this.BoundaryRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BoundaryRadio.Name = "BoundaryRadio";
-            this.BoundaryRadio.Size = new System.Drawing.Size(101, 17);
+            this.BoundaryRadio.Size = new System.Drawing.Size(131, 21);
             this.BoundaryRadio.TabIndex = 16;
             this.BoundaryRadio.TabStop = true;
             this.BoundaryRadio.Text = "Boundary Trace";
@@ -238,9 +255,10 @@
             // FourierRadio
             // 
             this.FourierRadio.AutoSize = true;
-            this.FourierRadio.Location = new System.Drawing.Point(1079, 497);
+            this.FourierRadio.Location = new System.Drawing.Point(1439, 612);
+            this.FourierRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.FourierRadio.Name = "FourierRadio";
-            this.FourierRadio.Size = new System.Drawing.Size(138, 17);
+            this.FourierRadio.Size = new System.Drawing.Size(184, 21);
             this.FourierRadio.TabIndex = 17;
             this.FourierRadio.TabStop = true;
             this.FourierRadio.Text = "Fourier shape descriptor";
@@ -248,9 +266,9 @@
             // 
             // INFOIBV
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1436, 576);
+            this.ClientSize = new System.Drawing.Size(1915, 709);
             this.Controls.Add(this.FourierRadio);
             this.Controls.Add(this.BoundaryRadio);
             this.Controls.Add(this.ValueRadio);
@@ -261,7 +279,7 @@
             this.Controls.Add(this.DilationRadio);
             this.Controls.Add(this.ErosionRadio);
             this.Controls.Add(this.RightAsInput);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.kernelInput);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.saveButton);
@@ -270,6 +288,7 @@
             this.Controls.Add(this.imageFileName);
             this.Controls.Add(this.LoadImageButton);
             this.Location = new System.Drawing.Point(10, 10);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "INFOIBV";
             this.ShowIcon = false;
             this.Text = "INFOIBV";
@@ -291,7 +310,7 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox kernelInput;
         private System.Windows.Forms.CheckBox RightAsInput;
         private System.Windows.Forms.RadioButton ErosionRadio;
         private System.Windows.Forms.RadioButton DilationRadio;
