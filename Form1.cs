@@ -42,7 +42,7 @@ namespace INFOIBV
         {
             if (InputImage == null)
             {
-                //textBox2.Text = "Please Load an image first.";
+                textBox1.Text = "Please Load an image first.";
                 return;
             }
 
@@ -169,7 +169,8 @@ namespace INFOIBV
             }
             catch (Exception e)
             {
-                this.textBox2.Text = e.Message;
+                //DIT MOET EIGENLIJK TEXTBOX 2 ZIJN KEEP THAT IN MIND PLS
+                this.textBox1.Text = e.Message;
                 return null;
             }
         }
