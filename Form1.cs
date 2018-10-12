@@ -94,5 +94,9 @@ namespace INFOIBV
                 OutputImage.Save(saveImageDialog.FileName);                 // Save the output image
         }
 
+        private void RightAsInput_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

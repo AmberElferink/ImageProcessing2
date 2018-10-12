@@ -38,16 +38,16 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.radioButton9 = new System.Windows.Forms.RadioButton();
+            this.RightAsInput = new System.Windows.Forms.CheckBox();
+            this.ErosionRadio = new System.Windows.Forms.RadioButton();
+            this.DilationRadio = new System.Windows.Forms.RadioButton();
+            this.OpeningRadio = new System.Windows.Forms.RadioButton();
+            this.ClosingRadio = new System.Windows.Forms.RadioButton();
+            this.MinRadio = new System.Windows.Forms.RadioButton();
+            this.MaxRadio = new System.Windows.Forms.RadioButton();
+            this.ValueRadio = new System.Windows.Forms.RadioButton();
+            this.BoundaryRadio = new System.Windows.Forms.RadioButton();
+            this.FourierRadio = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -136,130 +136,131 @@
             this.textBox1.Size = new System.Drawing.Size(216, 128);
             this.textBox1.TabIndex = 7;
             // 
-            // checkBox1
+            // RightAsInput
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(1079, 45);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.RightAsInput.AutoSize = true;
+            this.RightAsInput.Location = new System.Drawing.Point(1079, 45);
+            this.RightAsInput.Name = "RightAsInput";
+            this.RightAsInput.Size = new System.Drawing.Size(134, 17);
+            this.RightAsInput.TabIndex = 8;
+            this.RightAsInput.Text = "Right image(s) as Input";
+            this.RightAsInput.UseVisualStyleBackColor = true;
+            this.RightAsInput.CheckedChanged += new System.EventHandler(this.RightAsInput_CheckedChanged);
             // 
-            // radioButton1
+            // ErosionRadio
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(1079, 222);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(85, 17);
-            this.radioButton1.TabIndex = 9;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.ErosionRadio.AutoSize = true;
+            this.ErosionRadio.Location = new System.Drawing.Point(1079, 222);
+            this.ErosionRadio.Name = "ErosionRadio";
+            this.ErosionRadio.Size = new System.Drawing.Size(60, 17);
+            this.ErosionRadio.TabIndex = 9;
+            this.ErosionRadio.TabStop = true;
+            this.ErosionRadio.Text = "Erosion";
+            this.ErosionRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // DilationRadio
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(1079, 246);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(85, 17);
-            this.radioButton2.TabIndex = 10;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "radioButton2";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.DilationRadio.AutoSize = true;
+            this.DilationRadio.Location = new System.Drawing.Point(1079, 246);
+            this.DilationRadio.Name = "DilationRadio";
+            this.DilationRadio.Size = new System.Drawing.Size(60, 17);
+            this.DilationRadio.TabIndex = 10;
+            this.DilationRadio.TabStop = true;
+            this.DilationRadio.Text = "Dilation";
+            this.DilationRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // OpeningRadio
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(1079, 291);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(85, 17);
-            this.radioButton3.TabIndex = 11;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "radioButton3";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.OpeningRadio.AutoSize = true;
+            this.OpeningRadio.Location = new System.Drawing.Point(1079, 291);
+            this.OpeningRadio.Name = "OpeningRadio";
+            this.OpeningRadio.Size = new System.Drawing.Size(65, 17);
+            this.OpeningRadio.TabIndex = 11;
+            this.OpeningRadio.TabStop = true;
+            this.OpeningRadio.Text = "Opening";
+            this.OpeningRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // ClosingRadio
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(1079, 315);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(85, 17);
-            this.radioButton4.TabIndex = 12;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "radioButton4";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.ClosingRadio.AutoSize = true;
+            this.ClosingRadio.Location = new System.Drawing.Point(1079, 315);
+            this.ClosingRadio.Name = "ClosingRadio";
+            this.ClosingRadio.Size = new System.Drawing.Size(59, 17);
+            this.ClosingRadio.TabIndex = 12;
+            this.ClosingRadio.TabStop = true;
+            this.ClosingRadio.Text = "Closing";
+            this.ClosingRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton5
+            // MinRadio
             // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(1079, 362);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(85, 17);
-            this.radioButton5.TabIndex = 13;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "radioButton5";
-            this.radioButton5.UseVisualStyleBackColor = true;
+            this.MinRadio.AutoSize = true;
+            this.MinRadio.Location = new System.Drawing.Point(1079, 362);
+            this.MinRadio.Name = "MinRadio";
+            this.MinRadio.Size = new System.Drawing.Size(42, 17);
+            this.MinRadio.TabIndex = 13;
+            this.MinRadio.TabStop = true;
+            this.MinRadio.Text = "Min";
+            this.MinRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton6
+            // MaxRadio
             // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(1079, 386);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(85, 17);
-            this.radioButton6.TabIndex = 14;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "radioButton6";
-            this.radioButton6.UseVisualStyleBackColor = true;
+            this.MaxRadio.AutoSize = true;
+            this.MaxRadio.Location = new System.Drawing.Point(1079, 386);
+            this.MaxRadio.Name = "MaxRadio";
+            this.MaxRadio.Size = new System.Drawing.Size(45, 17);
+            this.MaxRadio.TabIndex = 14;
+            this.MaxRadio.TabStop = true;
+            this.MaxRadio.Text = "Max";
+            this.MaxRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton7
+            // ValueRadio
             // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Location = new System.Drawing.Point(1079, 432);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(85, 17);
-            this.radioButton7.TabIndex = 15;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "radioButton7";
-            this.radioButton7.UseVisualStyleBackColor = true;
+            this.ValueRadio.AutoSize = true;
+            this.ValueRadio.Location = new System.Drawing.Point(1079, 432);
+            this.ValueRadio.Name = "ValueRadio";
+            this.ValueRadio.Size = new System.Drawing.Size(97, 17);
+            this.ValueRadio.TabIndex = 15;
+            this.ValueRadio.TabStop = true;
+            this.ValueRadio.Text = "Value Counting";
+            this.ValueRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton8
+            // BoundaryRadio
             // 
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.Location = new System.Drawing.Point(1079, 473);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(85, 17);
-            this.radioButton8.TabIndex = 16;
-            this.radioButton8.TabStop = true;
-            this.radioButton8.Text = "radioButton8";
-            this.radioButton8.UseVisualStyleBackColor = true;
+            this.BoundaryRadio.AutoSize = true;
+            this.BoundaryRadio.Location = new System.Drawing.Point(1079, 473);
+            this.BoundaryRadio.Name = "BoundaryRadio";
+            this.BoundaryRadio.Size = new System.Drawing.Size(101, 17);
+            this.BoundaryRadio.TabIndex = 16;
+            this.BoundaryRadio.TabStop = true;
+            this.BoundaryRadio.Text = "Boundary Trace";
+            this.BoundaryRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton9
+            // FourierRadio
             // 
-            this.radioButton9.AutoSize = true;
-            this.radioButton9.Location = new System.Drawing.Point(1079, 497);
-            this.radioButton9.Name = "radioButton9";
-            this.radioButton9.Size = new System.Drawing.Size(85, 17);
-            this.radioButton9.TabIndex = 17;
-            this.radioButton9.TabStop = true;
-            this.radioButton9.Text = "radioButton9";
-            this.radioButton9.UseVisualStyleBackColor = true;
+            this.FourierRadio.AutoSize = true;
+            this.FourierRadio.Location = new System.Drawing.Point(1079, 497);
+            this.FourierRadio.Name = "FourierRadio";
+            this.FourierRadio.Size = new System.Drawing.Size(138, 17);
+            this.FourierRadio.TabIndex = 17;
+            this.FourierRadio.TabStop = true;
+            this.FourierRadio.Text = "Fourier shape descriptor";
+            this.FourierRadio.UseVisualStyleBackColor = true;
             // 
             // INFOIBV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1436, 576);
-            this.Controls.Add(this.radioButton9);
-            this.Controls.Add(this.radioButton8);
-            this.Controls.Add(this.radioButton7);
-            this.Controls.Add(this.radioButton6);
-            this.Controls.Add(this.radioButton5);
-            this.Controls.Add(this.radioButton4);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.FourierRadio);
+            this.Controls.Add(this.BoundaryRadio);
+            this.Controls.Add(this.ValueRadio);
+            this.Controls.Add(this.MaxRadio);
+            this.Controls.Add(this.MinRadio);
+            this.Controls.Add(this.ClosingRadio);
+            this.Controls.Add(this.OpeningRadio);
+            this.Controls.Add(this.DilationRadio);
+            this.Controls.Add(this.ErosionRadio);
+            this.Controls.Add(this.RightAsInput);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.pictureBox2);
@@ -291,16 +292,16 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton6;
-        private System.Windows.Forms.RadioButton radioButton7;
-        private System.Windows.Forms.RadioButton radioButton8;
-        private System.Windows.Forms.RadioButton radioButton9;
+        private System.Windows.Forms.CheckBox RightAsInput;
+        private System.Windows.Forms.RadioButton ErosionRadio;
+        private System.Windows.Forms.RadioButton DilationRadio;
+        private System.Windows.Forms.RadioButton OpeningRadio;
+        private System.Windows.Forms.RadioButton ClosingRadio;
+        private System.Windows.Forms.RadioButton MinRadio;
+        private System.Windows.Forms.RadioButton MaxRadio;
+        private System.Windows.Forms.RadioButton ValueRadio;
+        private System.Windows.Forms.RadioButton BoundaryRadio;
+        private System.Windows.Forms.RadioButton FourierRadio;
     }
 }
 
