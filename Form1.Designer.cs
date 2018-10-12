@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LoadImageButton = new System.Windows.Forms.Button();
+            this.LoadImageButton1 = new System.Windows.Forms.Button();
             this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
-            this.imageFileName = new System.Windows.Forms.TextBox();
+            this.imageFileName1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.applyButton = new System.Windows.Forms.Button();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveButton = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.outputBox1 = new System.Windows.Forms.PictureBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.kernelInput = new System.Windows.Forms.TextBox();
             this.RightAsInput = new System.Windows.Forms.CheckBox();
@@ -48,25 +48,26 @@
             this.ValueRadio = new System.Windows.Forms.RadioButton();
             this.BoundaryRadio = new System.Windows.Forms.RadioButton();
             this.FourierRadio = new System.Windows.Forms.RadioButton();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.outputBox2 = new System.Windows.Forms.PictureBox();
+            this.LoadImageButton2 = new System.Windows.Forms.Button();
+            this.imageFileName2 = new System.Windows.Forms.TextBox();
+            this.MessageBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputBox2)).BeginInit();
             this.SuspendLayout();
             // 
-            // LoadImageButton
+            // LoadImageButton1
             // 
-            this.LoadImageButton.Location = new System.Drawing.Point(12, 12);
-            this.LoadImageButton.Name = "LoadImageButton";
-            this.LoadImageButton.Size = new System.Drawing.Size(98, 23);
-            this.LoadImageButton.TabIndex = 0;
-            this.LoadImageButton.Text = "Load image...";
-            this.LoadImageButton.UseVisualStyleBackColor = true;
-            this.LoadImageButton.Click += new System.EventHandler(this.LoadImageButton_Click);
+            this.LoadImageButton1.Location = new System.Drawing.Point(12, 12);
+            this.LoadImageButton1.Name = "LoadImageButton1";
+            this.LoadImageButton1.Size = new System.Drawing.Size(98, 23);
+            this.LoadImageButton1.TabIndex = 0;
+            this.LoadImageButton1.Text = "Load image 1...";
+            this.LoadImageButton1.UseVisualStyleBackColor = true;
+            this.LoadImageButton1.Click += new System.EventHandler(this.LoadImageButton1_Click);
             // 
             // openImageDialog
             // 
@@ -74,13 +75,13 @@
     "ff;*.jpeg";
             this.openImageDialog.InitialDirectory = "..\\..\\images";
             // 
-            // imageFileName
+            // imageFileName1
             // 
-            this.imageFileName.Location = new System.Drawing.Point(116, 14);
-            this.imageFileName.Name = "imageFileName";
-            this.imageFileName.ReadOnly = true;
-            this.imageFileName.Size = new System.Drawing.Size(316, 20);
-            this.imageFileName.TabIndex = 1;
+            this.imageFileName1.Location = new System.Drawing.Point(116, 14);
+            this.imageFileName1.Name = "imageFileName1";
+            this.imageFileName1.ReadOnly = true;
+            this.imageFileName1.Size = new System.Drawing.Size(316, 20);
+            this.imageFileName1.TabIndex = 1;
             // 
             // pictureBox1
             // 
@@ -94,7 +95,7 @@
             // 
             // applyButton
             // 
-            this.applyButton.Location = new System.Drawing.Point(714, 51);
+            this.applyButton.Location = new System.Drawing.Point(714, 694);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(103, 23);
             this.applyButton.TabIndex = 3;
@@ -109,22 +110,22 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(835, 51);
+            this.saveButton.Location = new System.Drawing.Point(867, 694);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(95, 23);
+            this.saveButton.Size = new System.Drawing.Size(103, 23);
             this.saveButton.TabIndex = 4;
             this.saveButton.Text = "Save as BMP...";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // pictureBox2
+            // outputBox1
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(366, 45);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(320, 320);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox2.TabIndex = 5;
-            this.pictureBox2.TabStop = false;
+            this.outputBox1.Location = new System.Drawing.Point(366, 45);
+            this.outputBox1.Name = "outputBox1";
+            this.outputBox1.Size = new System.Drawing.Size(320, 320);
+            this.outputBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.outputBox1.TabIndex = 5;
+            this.outputBox1.TabStop = false;
             // 
             // progressBar
             // 
@@ -253,48 +254,58 @@
             this.FourierRadio.Text = "Fourier shape descriptor";
             this.FourierRadio.UseVisualStyleBackColor = true;
             // 
-            // pictureBox3
+            // pictureBox2
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(13, 397);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(320, 320);
-            this.pictureBox3.TabIndex = 18;
-            this.pictureBox3.TabStop = false;
+            this.pictureBox2.Location = new System.Drawing.Point(13, 397);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(320, 320);
+            this.pictureBox2.TabIndex = 18;
+            this.pictureBox2.TabStop = false;
             // 
-            // pictureBox4
+            // outputBox2
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(366, 397);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(320, 320);
-            this.pictureBox4.TabIndex = 19;
-            this.pictureBox4.TabStop = false;
+            this.outputBox2.Location = new System.Drawing.Point(366, 397);
+            this.outputBox2.Name = "outputBox2";
+            this.outputBox2.Size = new System.Drawing.Size(320, 320);
+            this.outputBox2.TabIndex = 19;
+            this.outputBox2.TabStop = false;
             // 
-            // button1
+            // LoadImageButton2
             // 
-            this.button1.Location = new System.Drawing.Point(13, 371);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(98, 23);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Load image...";
-            this.button1.UseVisualStyleBackColor = true;
+            this.LoadImageButton2.Location = new System.Drawing.Point(13, 371);
+            this.LoadImageButton2.Name = "LoadImageButton2";
+            this.LoadImageButton2.Size = new System.Drawing.Size(98, 23);
+            this.LoadImageButton2.TabIndex = 20;
+            this.LoadImageButton2.Text = "Load image 2...";
+            this.LoadImageButton2.UseVisualStyleBackColor = true;
+            this.LoadImageButton2.Click += new System.EventHandler(this.LoadImageButton2_Click);
             // 
-            // textBox1
+            // imageFileName2
             // 
-            this.textBox1.Location = new System.Drawing.Point(117, 373);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(316, 20);
-            this.textBox1.TabIndex = 21;
+            this.imageFileName2.Location = new System.Drawing.Point(117, 373);
+            this.imageFileName2.Name = "imageFileName2";
+            this.imageFileName2.ReadOnly = true;
+            this.imageFileName2.Size = new System.Drawing.Size(316, 20);
+            this.imageFileName2.TabIndex = 21;
+            // 
+            // MessageBox2
+            // 
+            this.MessageBox2.Location = new System.Drawing.Point(714, 577);
+            this.MessageBox2.Name = "MessageBox2";
+            this.MessageBox2.ReadOnly = true;
+            this.MessageBox2.Size = new System.Drawing.Size(256, 20);
+            this.MessageBox2.TabIndex = 23;
             // 
             // INFOIBV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 729);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.MessageBox2);
+            this.Controls.Add(this.imageFileName2);
+            this.Controls.Add(this.LoadImageButton2);
+            this.Controls.Add(this.outputBox2);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.FourierRadio);
             this.Controls.Add(this.BoundaryRadio);
             this.Controls.Add(this.ValueRadio);
@@ -307,20 +318,20 @@
             this.Controls.Add(this.RightAsInput);
             this.Controls.Add(this.kernelInput);
             this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.outputBox1);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.applyButton);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.imageFileName);
-            this.Controls.Add(this.LoadImageButton);
+            this.Controls.Add(this.imageFileName1);
+            this.Controls.Add(this.LoadImageButton1);
             this.Location = new System.Drawing.Point(10, 10);
             this.Name = "INFOIBV";
             this.ShowIcon = false;
             this.Text = "INFOIBV";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -328,14 +339,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button LoadImageButton;
+        private System.Windows.Forms.Button LoadImageButton1;
         private System.Windows.Forms.OpenFileDialog openImageDialog;
-        private System.Windows.Forms.TextBox imageFileName;
+        private System.Windows.Forms.TextBox imageFileName1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button applyButton;
         private System.Windows.Forms.SaveFileDialog saveImageDialog;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox outputBox1;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox kernelInput;
         private System.Windows.Forms.CheckBox RightAsInput;
@@ -348,10 +359,11 @@
         private System.Windows.Forms.RadioButton ValueRadio;
         private System.Windows.Forms.RadioButton BoundaryRadio;
         private System.Windows.Forms.RadioButton FourierRadio;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox outputBox2;
+        private System.Windows.Forms.Button LoadImageButton2;
+        private System.Windows.Forms.TextBox imageFileName2;
+        private System.Windows.Forms.TextBox MessageBox2;
     }
 }
 
