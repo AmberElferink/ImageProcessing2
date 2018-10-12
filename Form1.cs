@@ -19,7 +19,6 @@ namespace INFOIBV
 
         int alow = 0;
         int ahigh = 0;
-        bool isBinary = false;
 
         public INFOIBV()
         {
@@ -69,7 +68,7 @@ namespace INFOIBV
             //==========================================================================================
             */
 
-            NoAutoContrHistogram();
+            NoAutoContrHistogram(ref alow, ref ahigh);
 
             // Copy array to output Bitmap
             for (int x = 0; x < InputImage1.Size.Width; x++)
@@ -181,7 +180,7 @@ namespace INFOIBV
             }
         }
 
-        void NoAutoContrHistogram()
+        int NoAutoContrHistogram(ref int alow, ref int ahigh)
         {
             int[] histogram = new int[256];     //histogram aanmaken, alow en ahigh initialiseren
             int valueCount = 0;
@@ -196,6 +195,17 @@ namespace INFOIBV
                     Color updatedColor = Color.FromArgb(grey, grey, grey);          // toepassen grijswaarde
 
                     histogram[grey]++;                                              // histogram updaten
+
+                    //kijken of er nieuwe alow/ahigh gevonden is
+                    if (grey < alow)
+                    {
+                        alow = grey;
+                    }
+                    if (grey > ahigh)
+                    {
+                        ahigh = grey;
+                    }
+
                     progressBar.PerformStep();                                      // Increment progress bar
                 }
             }
@@ -214,10 +224,13 @@ namespace INFOIBV
             {
                 if (histogram[i] > 0) valueCount++;
             }
-            if (valueCount == 2)
-            {
-                isBinary = true;
-            }
+            return valueCount;
+        }
+
+        bool isBinary()
+        {
+            if (NoAutoContrHistogram(ref alow, ref ahigh) == 2) return true;
+            else return false;
         }
 
         int CalculateNewColor(int x, int y, int[,] matrix, int halfBoxSize, bool divideByTotal = true)
@@ -240,22 +253,39 @@ namespace INFOIBV
             return linearColor;
         }
 
-        int CalculateErosionBinary(int x, int y, int[,] matrix, int halfBoxSize)
+        void CalculateErosionBinary(int x, int y, int[,] matrix, int halfBoxSize)
         {
-            int newColor = 0;
-            for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
+            if (Image[x, y].R == ahigh)
             {
-                for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
                 {
+                    for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                    {
+                        int newcolor = ahigh * matrix[a + halfBoxSize, b + halfBoxSize];
+                        Color updatedColor = Color.FromArgb(newcolor, newcolor, newcolor);
+                        newImage[x + a, y + b] = updatedColor;
+                    }
                 }
             }
-                    return 0;
         }
 
-        int CalculateDilationBinary(int x, int y, int[,] matrix, int halfBoxSize)
+        void CalculateDilationBinary(int x, int y, int[,] matrix, int halfBoxSize)
         {
-            int newColor = 0;
-            return 0;
+            if (Image[x, y].R == ahigh)
+            {
+                for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
+                {
+                    for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                    {
+                        if (Image[x + a, y + b].R == ahigh)
+                        {
+                            int newcolor = ahigh - (ahigh * matrix[a + halfBoxSize, b + halfBoxSize]);
+                            Color updatedColor = Color.FromArgb(newcolor, newcolor, newcolor);
+                            newImage[x + a, y + b] = updatedColor;
+                        }
+                    }
+                }
+            }
         }
 
         int CalculateErosion(int x, int y, int[,] matrix, int halfBoxSize)
@@ -270,7 +300,7 @@ namespace INFOIBV
             return 0;
         }
 
-        void ApplyErosionDilationFilter(bool isErosion, bool isBinary)
+        void ApplyErosionDilationFilter(bool isErosion)
         {
             int[,] matrix = ParseMatrix();
             int newColor = 0;
@@ -280,15 +310,17 @@ namespace INFOIBV
                 int boxsize = matrix.GetLength(0);                                           // lengte matrix wordt uitgelezen
                 int halfBoxSize = (boxsize - 1) / 2;                                        // hulpvariabele voor berekeningen
 
+                
+
                 //loop over de image heen
                 for (int x = halfBoxSize; x < InputImage1.Size.Width - halfBoxSize; x++)
                 {
                     for (int y = halfBoxSize; y < InputImage1.Size.Height - halfBoxSize; y++)
                     {
-                        if (isBinary)
+                        if (isBinary())
                         {
-                            if (isErosion) newColor = CalculateErosionBinary(x, y, matrix, halfBoxSize);
-                            else newColor = CalculateDilationBinary(x, y, matrix, halfBoxSize);
+                            if (isErosion) CalculateErosionBinary(x, y, matrix, halfBoxSize);
+                            else CalculateDilationBinary(x, y, matrix, halfBoxSize);
                         }
                         else
                         {
