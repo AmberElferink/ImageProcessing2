@@ -60,8 +60,11 @@ namespace INFOIBV
             else if (ClosingRadio.Checked == true)
                 ApplyOpeningClosingFilter(false);
             else if (ValueRadio.Checked == true)
-                //kernelInput.Text = "Unique values: " + valueCount(generateHistogram(ref alow, ref ahigh));
-                kernelInput.Text = "Foreground greyscale value: " + detectForeground(generateHistogram(ref alow, ref ahigh));
+                kernelInput.Text = "Unique values: " + valueCount(generateHistogram(ref alow, ref ahigh));
+
+            // voor deze moet nog even een aparte radiobutton gemaakt worden
+            else
+                GenerateComplement();
 
             toOutputBitmap();
 
@@ -279,6 +282,20 @@ namespace INFOIBV
             if (i < 0) return 0;
             else if (i > 255) return 255;
             else return i;
+        }
+
+        void GenerateComplement()
+        {
+            for (int x = 0; x < InputImage1.Size.Width; x++)
+            {
+                for (int y = 0; y < InputImage1.Size.Height; y++)
+                {
+                    int newColor = Image[x, y].R;                         // Get the pixel color at coordinate (x,y)
+                    newColor = 255 - newColor; // Negative image
+                    newImage[x, y] = Color.FromArgb(newColor, newColor, newColor);                             // Set the new pixel color at coordinate (x,y)
+                    progressBar.PerformStep();                              // Increment progress bar
+                }
+            }
         }
 
         /// <summary>
