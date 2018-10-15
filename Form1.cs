@@ -51,6 +51,20 @@ namespace INFOIBV
 
             resetForApply();
 
+            if (ErosionRadio.Checked == true)
+                ApplyErosionDilationFilter(true);
+            else if (DilationRadio.Checked == true)
+                ApplyErosionDilationFilter(false);
+            else if (OpeningRadio.Checked == true)
+                ApplyOpeningClosingFilter(true);
+            else if (ClosingRadio.Checked == true)
+                ApplyOpeningClosingFilter(false);
+            else if (ValueRadio.Checked == true)
+                //kernelInput.Text = "Unique values: " + valueCount(generateHistogram(ref alow, ref ahigh));
+                kernelInput.Text = "Foreground greyscale value: " + detectForeground(generateHistogram(ref alow, ref ahigh));
+
+            toOutputBitmap();
+
             /*
             //==========================================================================================
             // TODO: include here your own code
@@ -67,20 +81,7 @@ namespace INFOIBV
             }
             //==========================================================================================
             */
-
-            NoAutoContrHistogram(ref alow, ref ahigh);
-
-            // Copy array to output Bitmap
-            for (int x = 0; x < InputImage1.Size.Width; x++)
-            {
-                for (int y = 0; y < InputImage1.Size.Height; y++)
-                {
-                    OutputImage1.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
-                }
-            }
             
-            pictureBox2.Image = (Image)OutputImage1;                         // Display output image
-            progressBar.Visible = false;                                    // Hide progress bar
         }
         
         private void saveButton_Click(object sender, EventArgs e)
@@ -94,7 +95,7 @@ namespace INFOIBV
         {
 
         }
-
+        
         void resetForApply()
         {
             if (InputImage1 == null) return;                                 // Get out if no input image
@@ -120,16 +121,19 @@ namespace INFOIBV
             }
         }
 
+        /// <summary>
+        /// Generates an image in picturBox2 based on the color matrix newImage.
+        /// </summary>
         void toOutputBitmap()
         {
-            Image = newImage;
+            //Image = newImage;
             // Copy array to output Bitmap
             for (int x = 0; x < InputImage1.Size.Width; x++)
             {
                 for (int y = 0; y < InputImage1.Size.Height; y++)
                 {
-                    OutputImage1.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
-                    //OutputImage.SetPixel(x, y, newImage[x, y]);
+                    //OutputImage1.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
+                  OutputImage1.SetPixel(x, y, newImage[x, y]);
                 }
             }
 
@@ -137,6 +141,10 @@ namespace INFOIBV
             progressBar.Visible = false;                                    // Hide progress bar
         }
 
+        /// <summary>
+        /// Reads the input of textbox1 and returns a matrix generated from the input.
+        /// </summary>
+        /// <returns></returns>
         int[,] ParseMatrix()
         {
             try
@@ -180,11 +188,15 @@ namespace INFOIBV
             }
         }
 
-        int NoAutoContrHistogram(ref int alow, ref int ahigh)
+        /// <summary>
+        /// Generates a histogram of the currently loaded image.
+        /// </summary>
+        /// <param name="alow"></param>
+        /// <param name="ahigh"></param>
+        /// <returns></returns>
+        int[] generateHistogram(ref int alow, ref int ahigh)
         {
             int[] histogram = new int[256];     //histogram aanmaken, alow en ahigh initialiseren
-            int valueCount = 0;
-
 
             for (int x = 0; x < InputImage1.Size.Width; x++)
             {
@@ -209,132 +221,232 @@ namespace INFOIBV
                     progressBar.PerformStep();                                      // Increment progress bar
                 }
             }
-
-            /*
-            Console.WriteLine("Histogram:");                                        // histogram wordt geprint
-            for (int a = 0; a < 256; a++)
-            {
-                Console.WriteLine(a + ": " + histogram[a]);
-            }
-            */
-
-
-            // LATER NOG NAAR ALOW/AHIGH KIJKEN VOOR BINAIRE IMAGES DIE NIET 0/255 ZIJN
-            for (int i = 0; i < histogram.Length; i++)
-            {
-                if (histogram[i] > 0) valueCount++;
-            }
-            return valueCount;
+            return histogram;
         }
 
-        bool isBinary()
+        /// <summary>
+        /// Returns the unique number of values in a histogram.
+        /// </summary>
+        /// <param name="histogram"></param>
+        /// <returns></returns>
+        int valueCount(int[] histogram)
         {
-            if (NoAutoContrHistogram(ref alow, ref ahigh) == 2) return true;
+            int count = 0;
+            for (int i = 0; i < histogram.Length; i++)
+            {
+                if (histogram[i] > 0) count++;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Checks if a number is binary (used to check the valuecount of a histogram for binary images).
+        /// </summary>
+        /// <returns></returns>
+        bool isBinary(int input)
+        {
+            if (input == 2) return true;
             else return false;
         }
 
-        int CalculateNewColor(int x, int y, int[,] matrix, int halfBoxSize, bool divideByTotal = true)
+        /// <summary>
+        /// Returns the foreground (smallest number of pixels) value of a binary image using its histogram as input.
+        /// </summary>
+        /// <param name="histogram"></param>
+        /// <returns></returns>
+        int detectForeground(int[] histogram)
         {
-            int linearColor = 0;
-            int matrixTotal = 0;                // totale waarde van alle weights van de matrix bij elkaar opgeteld
+            if (!isBinary(valueCount(histogram))) return 256;
+
+            int a = 0;
+            int b = 0;
+            for (int i = 0; i < histogram.Length; i++)
+            {
+                if (a == 0 && histogram[i] != 0) a = i;
+                if (b == 0 && histogram[i] != 0 && i != a) b = i;
+            }
+            if (a < b) return a;
+            else return b;
+        }
+
+        /// <summary>
+        /// Takes an integer value and clamps it to either the minimum or maximum RGB-value (0-255).
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        int clamp(int i)
+        {
+            if (i < 0) return 0;
+            else if (i > 255) return 255;
+            else return i;
+        }
+
+        /// <summary>
+        /// Dilates a binary image using the provided matrix as structuring element.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="matrix"></param>
+        /// <param name="halfBoxSize"></param>
+        void CalculateDilationBinary(int x, int y, int[,] matrix, int halfBoxSize)
+        {
             for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
             {
                 for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
                 {
-                    linearColor = linearColor + (Image[x + a, y + b].R * matrix[a + halfBoxSize, b + halfBoxSize]);
-                    // weight van filter wordt per kernel pixel toegepast op image pixel
-                    matrixTotal = matrixTotal + matrix[a + halfBoxSize, b + halfBoxSize];
-                    // weight wordt opgeteld bij totaalsom van weights
-                }
-            }
-            if (divideByTotal == true) // Voor Edgestrength moet niet door het totaal gedeeld, dus kan hij uitgezet worden.
-                linearColor = linearColor / matrixTotal;
-
-            return linearColor;
-        }
-
-        void CalculateErosionBinary(int x, int y, int[,] matrix, int halfBoxSize)
-        {
-            if (Image[x, y].R == ahigh)
-            {
-                for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
-                {
-                    for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                    // every pixel that exists on the structuring element and is currently in the background gets transformed to the foreground
+                    if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && Image[x + a, y + b].R == ahigh)
                     {
-                        int newcolor = ahigh * matrix[a + halfBoxSize, b + halfBoxSize];
+                        int newcolor = alow;
                         Color updatedColor = Color.FromArgb(newcolor, newcolor, newcolor);
                         newImage[x + a, y + b] = updatedColor;
                     }
+                    // every pixel that doesn't meet these conditions retains its former color
+                    else newImage[x, y] = Image[x, y];
                 }
             }
         }
 
-        void CalculateDilationBinary(int x, int y, int[,] matrix, int halfBoxSize)
+        /// <summary>
+        /// Erodes a binary image using the provided matrix as a structuring element.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="matrix"></param>
+        /// <param name="halfBoxSize"></param>
+        void CalculateErosionBinary(int x, int y, int[,] matrix, int halfBoxSize)
         {
-            if (Image[x, y].R == ahigh)
+            for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
             {
-                for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
+                for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
                 {
-                    for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                    // if a pixel in the structuring element is detected that isn't in the foreground, 
+                    // the hotspot gets transformed to the background and the function ends
+                    if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && Image[x + a, y + b].R == ahigh)
                     {
-                        if (Image[x + a, y + b].R == ahigh)
-                        {
-                            int newcolor = ahigh - (ahigh * matrix[a + halfBoxSize, b + halfBoxSize]);
-                            Color updatedColor = Color.FromArgb(newcolor, newcolor, newcolor);
-                            newImage[x + a, y + b] = updatedColor;
-                        }
+                        int newcolor = ahigh;
+                        Color updatedColor = Color.FromArgb(newcolor, newcolor, newcolor);
+                        newImage[x, y] = updatedColor;
+                        return;
                     }
                 }
             }
+            // if the surrounding pixels pass all checks of the structuring element, the hotspot can stay in the foreground
+            newImage[x, y] = Image[x, y];
         }
 
-        int CalculateErosion(int x, int y, int[,] matrix, int halfBoxSize)
-        {
-            int newColor = 0;
-            return 0;
-        }
-
+        /// <summary>
+        /// Dilates a greyscale image using the provided matrix as a structuring element.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="matrix"></param>
+        /// <param name="halfBoxSize"></param>
+        /// <returns></returns>
         int CalculateDilation(int x, int y, int[,] matrix, int halfBoxSize)
         {
             int newColor = 0;
-            return 0;
+            for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
+            {
+                for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                {
+                    // The maximum value of the structuring element added to the surrounding pixels is chosen and returned as the new greyscale value for the hotspot.
+                    if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && (Image[x + a, y + b].R + matrix[a + halfBoxSize, b + halfBoxSize]) > newColor)
+                    {
+                        newColor = clamp(Image[x + a, y + b].R + matrix[a + halfBoxSize, b + halfBoxSize]);
+                    }
+                }
+            }
+            return newColor;
         }
 
+        /// <summary>
+        /// Erodes a greyscale image using the provided matrix as a structuring element.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="matrix"></param>
+        /// <param name="halfBoxSize"></param>
+        /// <returns></returns>
+        int CalculateErosion(int x, int y, int[,] matrix, int halfBoxSize)
+        {
+            int newColor = int.MaxValue;
+            for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
+            {
+                for (int b = (halfBoxSize * -1); b <= halfBoxSize; b++)
+                {
+                    // The minimum value of the structuring element subtracted from the surrounding pixels is chosen and returned as the new greyscale value for the hotspot.
+                    if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && (Image[x + a, y + b].R - matrix[a + halfBoxSize, b + halfBoxSize]) < newColor)
+                    {
+                        newColor = clamp(Image[x + a, y + b].R - matrix[a + halfBoxSize, b + halfBoxSize]);
+                    }
+                }
+            }
+            return newColor;
+        }
+
+        /// <summary>
+        /// Apply an erosion or dilation filter to an input image using the matrix provided in textbox1 as a structuring element.
+        /// </summary>
+        /// <param name="isErosion"></param>
         void ApplyErosionDilationFilter(bool isErosion)
         {
             int[,] matrix = ParseMatrix();
             int newColor = 0;
+            
+            //check if the image is binary
+            bool binary = isBinary(valueCount(generateHistogram(ref alow, ref ahigh)));
+
             if (matrix != null)
             {
-                // linear boxfilter
-                int boxsize = matrix.GetLength(0);                                           // lengte matrix wordt uitgelezen
-                int halfBoxSize = (boxsize - 1) / 2;                                        // hulpvariabele voor berekeningen
-
+                int boxsize = matrix.GetLength(0);                                           // length matrix
+                int halfBoxSize = (boxsize - 1) / 2;                                        // help variable
                 
-
-                //loop over de image heen
+                //loop through the image
                 for (int x = halfBoxSize; x < InputImage1.Size.Width - halfBoxSize; x++)
                 {
                     for (int y = halfBoxSize; y < InputImage1.Size.Height - halfBoxSize; y++)
                     {
-                        if (isBinary())
+                        // binary images: binary erosion/dilation
+                        if (binary && Image[x, y].R == alow)
                         {
                             if (isErosion) CalculateErosionBinary(x, y, matrix, halfBoxSize);
                             else CalculateDilationBinary(x, y, matrix, halfBoxSize);
                         }
-                        else
+                        else newImage[x, y] = Image[x, y];
+                        // greyscale images: greyscale erosion/dilation and apply new color
+                        if (!binary)
                         {
                             if (isErosion) newColor = CalculateErosion(x, y, matrix, halfBoxSize);
                             else newColor = CalculateDilation(x, y, matrix, halfBoxSize);
+                            Color updatedColor = Color.FromArgb(newColor, newColor, newColor);
+                            newImage[x, y] = updatedColor;
                         }
-                        //bekijk voor elke pixel op de image wat de nieuwe kleur moet worden
-                        Color updatedColor = Color.FromArgb(newColor, newColor, newColor);
-                        newImage[x, y] = updatedColor;
                         progressBar.PerformStep();
                     }
                 }
             }
-            toOutputBitmap();
-        }   
+        }
+
+        /// <summary>
+        /// Apply an opening or closing filter to an input image using the matrix provided in textbox1 as a structuring element.
+        /// </summary>
+        /// <param name="isOpening"></param>
+        void ApplyOpeningClosingFilter(bool isOpening)
+        {
+            if (isOpening) ApplyErosionDilationFilter(true);
+            else ApplyErosionDilationFilter(false);
+
+            for (int x = 0; x < InputImage1.Size.Width; x++)
+            {
+                for (int y = 0; y < InputImage1.Size.Height; y++)
+                {
+                    Image[x, y] = newImage[x, y];
+                }
+            }
+
+            if (isOpening) ApplyErosionDilationFilter(false);
+            else ApplyErosionDilationFilter(true);
+        }
     }
 }
