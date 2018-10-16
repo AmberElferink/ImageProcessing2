@@ -152,7 +152,6 @@
             this.RightAsInput.TabIndex = 8;
             this.RightAsInput.Text = "Right image(s) as Input";
             this.RightAsInput.UseVisualStyleBackColor = true;
-            this.RightAsInput.CheckedChanged += new System.EventHandler(this.RightAsInput_CheckedChanged);
             // 
             // ErosionRadio
             // 

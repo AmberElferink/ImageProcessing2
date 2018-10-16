@@ -74,25 +74,25 @@ namespace INFOIBV
                 kernelInput.Text = WritePointArr(boundary);
                 BoundaryToOutput(boundary);
             }
-
-
-            else if (ErosionRadio.Checked == true)
-                ApplyErosionDilationFilter(true);
-            else if (DilationRadio.Checked == true)
-                ApplyErosionDilationFilter(false);
-            else if (OpeningRadio.Checked == true)
-                ApplyOpeningClosingFilter(true);
-            else if (ClosingRadio.Checked == true)
-                ApplyOpeningClosingFilter(false);
-            else if (ValueRadio.Checked == true)
-                kernelInput.Text = "Unique values: " + valueCount(generateHistogram(ref alow, ref ahigh));
-
-            // voor deze moet nog even een aparte radiobutton gemaakt worden
             else
-                GenerateComplement();
+            {
+                 if (ErosionRadio.Checked == true)
+                    ApplyErosionDilationFilter(true);
+                else if (DilationRadio.Checked == true)
+                    ApplyErosionDilationFilter(false);
+                else if (OpeningRadio.Checked == true)
+                    ApplyOpeningClosingFilter(true);
+                else if (ClosingRadio.Checked == true)
+                    ApplyOpeningClosingFilter(false);
+                else if (ValueRadio.Checked == true)
+                    kernelInput.Text = "Unique values: " + valueCount(generateHistogram(ref alow, ref ahigh));
+                else
+                    GenerateComplement();
 
-            toOutputBitmap();
+                toOutputBitmap();
 
+            }
+        }
           
 
 
@@ -124,7 +124,9 @@ namespace INFOIBV
             outputBox1.Image = (Image) OutputImage1;                         // Display output image
             progressBar.Visible = false;             
       
+      
         }
+
 
 
 
@@ -251,7 +253,7 @@ namespace INFOIBV
                 }
             }
 
-            pictureBox2.Image = (Image)OutputImage1;                         // Display output image
+            outputBox1.Image = (Image)OutputImage1;                         // Display output image
             progressBar.Visible = false;                                    // Hide progress bar
         }
 
