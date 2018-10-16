@@ -109,7 +109,7 @@ namespace INFOIBV
                     //kernelInput.Text = detectBackground(generateHistogram(ref alow, ref ahigh)).ToString();
                     GenerateComplement();
                 else if (FourierRadio.Checked)
-                   WritedrawPointArr(FourierComponents());
+                   kernelInput.Text = WritedrawVectArr(FourierComponents());
                 
                 toOutputBitmap();
 
@@ -117,12 +117,70 @@ namespace INFOIBV
         }
 
 
-
-
-        drawPoint[] FourierComponents()
+        String WritedrawVectArr(Vector[] Cn)
         {
-            Vector vector1 = new Vector(20, 30);
-            return new drawPoint[0];
+
+            String output = "{";
+            for (int n = 0; n < Cn.Length; n++)
+            {
+                output = output + "(" + Cn[n].X + "," + Cn[n].Y + "), ";
+            }
+            output += "}";
+            return output;
+        }
+
+        float Pi = (float)Math.PI;
+
+        Vector[] FourierComponents()
+        {
+            drawPoint[] points = TraceBoundary();
+            drawPoint x0 = points[0];
+            Vector[] polarCoords = new Vector[points.Length / 30 + 1];
+
+            int polarCoordIndex = 0;
+            for(int i = 0; i < points.Length; i = i + 30)
+            {
+                int xlength = points[i].X - x0.X;
+                int ylength = points[i].Y - x0.Y;
+                float totLength = (float)Math.Sqrt(xlength * xlength + ylength * ylength);
+                float angle = (float)Math.Asin(ylength / totLength);
+                polarCoords[polarCoordIndex] = new Vector(angle, totLength);
+                polarCoordIndex++;
+            }
+
+            int nmax = 7;
+            int M = polarCoordIndex;
+            Vector[] Cn = new Vector[nmax];
+
+            float sumX = 0;
+            float sumY = 0;
+
+            for (int m = 0; m < M; m++) //the mth point in the list
+            {
+                sumX += (float)polarCoords[m].X;
+                sumY += (float)polarCoords[m].Y;
+            }
+
+            Cn[0] = new Vector(1 / M * sumX, 1/M * sumY );
+
+            sumX = 0;
+            sumY = 0;
+
+            for (int n = 1; n < nmax; n++) //n of cn
+            {
+                for (int m = 0; m < M; m++) //the mth point in the list
+                {
+                    double inCosSin = (1 / M) * (2 * Pi * n * m);
+                    sumX += (float)(polarCoords[m].X * Math.Cos(inCosSin) + polarCoords[m].Y * Math.Sin(inCosSin));
+                    sumY += (float)(polarCoords[m].Y * Math.Cos(inCosSin) - polarCoords[m].X * Math.Sin(inCosSin));
+
+                }
+                Cn[n] = new Vector(1 / M * sumX, 1 / M * sumY);
+            }
+
+            //Vector ReC0 = 1 / polarCoordIndex *
+
+            return Cn;
         }
 
 
