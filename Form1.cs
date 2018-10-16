@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using drawPoint = System.Drawing.Point;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Numerics;
+using System.Windows;
 
 namespace INFOIBV
 {
@@ -68,7 +69,7 @@ namespace INFOIBV
 
 
 
-
+        
 
 
         private void applyButton_Click(object sender, EventArgs e)
@@ -86,8 +87,8 @@ namespace INFOIBV
             }
             if (BoundaryRadio.Checked)
             {
-                Point[] boundary = TraceBoundary();
-                kernelInput.Text = WritePointArr(boundary);
+                drawPoint[] boundary = TraceBoundary();
+                kernelInput.Text = WritedrawPointArr(boundary);
                 BoundaryToOutput(boundary);
             }
             else
@@ -108,7 +109,7 @@ namespace INFOIBV
                     //kernelInput.Text = detectBackground(generateHistogram(ref alow, ref ahigh)).ToString();
                     GenerateComplement();
                 else if (FourierRadio.Checked)
-                   WritePointArr(FourierComponents());
+                   WritedrawPointArr(FourierComponents());
                 
                 toOutputBitmap();
 
@@ -118,10 +119,10 @@ namespace INFOIBV
 
 
 
-        Point[] FourierComponents()
+        drawPoint[] FourierComponents()
         {
-          //  Vec
-            return new Point[0];
+            Vector vector1 = new Vector(20, 30);
+            return new drawPoint[0];
         }
 
 
@@ -691,14 +692,14 @@ namespace INFOIBV
 
         // -------------------------------------------- TRACE BOUNDARY CODE --------------------------------------------
 
-        Point[] TraceBoundary()
+        drawPoint[] TraceBoundary()
         {
             Color backGrC = Color.FromArgb(255, 0, 0, 0);
             //Color foreGrC = Color.FromArgb(255, 255, 255, 255);
 
             Color previousColor = backGrC;
 
-            List<Point> returnValue = new List<Point>();
+            List<drawPoint> returnValue = new List<drawPoint>();
 
             for (int v = 0; v < InputImage1.Height; v++)
                 for (int u = 0; u < InputImage1.Width; u++) //x moet 'snelst' doorlopen
@@ -717,21 +718,21 @@ namespace INFOIBV
         /// Handles the case that there is a transition from background to foreground in the image, and traces the figure found.
         /// </summary>
         /// <param name="backgrC">background color</param>
-        List<Point> TransFgBg(Color backgrC, List<Point> ContourPixels, int u, int v)
+        List<drawPoint> TransFgBg(Color backgrC, List<drawPoint> ContourPixels, int u, int v)
         {
 
             if (isContourPix(backgrC, u, v))
             {
                 if (Image1[u, v] != backgrC)
                 {
-                    ContourPixels.Add(new Point(u, v));
+                    ContourPixels.Add(new drawPoint(u, v));
 
                     //This is N8 chain code, for N4 only consider the 4 pixels straight up, below, left and right
                     for (int x = -1; x <= 1; x++) //kijk van rechtsonder naar linksboven, dan loop je minder snel terug.
                         for (int y = -1; y <= 1; y++)
                         {
                             if (u + x >= 0 && v + y >= 0 && u + x < InputImage1.Width && v + y < InputImage1.Height)
-                                if (!ContourPixels.Contains(new Point(u + x, v + y)))
+                                if (!ContourPixels.Contains(new drawPoint(u + x, v + y)))
                                 {
                                     TransFgBg(backgrC, ContourPixels, u + x, v + y);
                                 }
@@ -759,12 +760,12 @@ namespace INFOIBV
 
 
 
-        String WritePointArr(Point[] points)
+        String WritedrawPointArr(drawPoint[] drawPoints)
         {
             String output = "{";
-            for (int i = 0; i < points.Length; i++)
+            for (int i = 0; i < drawPoints.Length; i++)
             {
-                output = output + "(" + points[i].X + "," + points[i].Y + "), ";
+                output = output + "(" + drawPoints[i].X + "," + drawPoints[i].Y + "), ";
             }
             output += "}";
             return output;
@@ -772,12 +773,12 @@ namespace INFOIBV
 
 
 
-        void BoundaryToOutput(Point[] points)
+        void BoundaryToOutput(drawPoint[] drawPoints)
         {
             for (int x = 0; x < InputImage1.Width; x++)
                 for (int y = 0; y < InputImage1.Height; y++)
                 {
-                    if (points.Contains(new Point(x, y)))
+                    if (drawPoints.Contains(new drawPoint(x, y)))
                         OutputImage1.SetPixel(x, y, Color.FromArgb(255, 0, 0, 0));
                     else
                         OutputImage1.SetPixel(x, y, Color.FromArgb(255, 255, 255, 255));
