@@ -91,15 +91,15 @@ namespace INFOIBV
             else
             {
                 if (ErosionRadio.Checked)
-                    ApplyErosionDilationFilter(true);
+                    ApplyErosionDilationFilter(true, false);
                 else if (DilationRadio.Checked)
-                    ApplyErosionDilationFilter(false);
+                    ApplyErosionDilationFilter(false, false);
                 else if (OpeningRadio.Checked)
                     ApplyOpeningClosingFilter(true);
                 else if (ClosingRadio.Checked)
                     ApplyOpeningClosingFilter(false);
                 else if (ValueRadio.Checked)
-                    kernelInput.Text = "Unique values: " + valueCount(generateHistogram(ref alow, ref ahigh));
+                    kernelInput.Text = "Unique values: " + valueCount(generateHistogram(Image1));
                 else if (MinRadio.Checked)
                     ApplyErosionDilationFilter(true, true);
                 else if (complementRadio.Checked)
@@ -191,6 +191,16 @@ namespace INFOIBV
                     Image1[x, y] = InputImage1.GetPixel(x, y);                // Set pixel color in array at (x,y)
                 }
             }
+
+
+            // Copy input Bitmap to array            
+            for (int x = 0; x < InputImage2.Size.Width; x++)
+            {
+                for (int y = 0; y < InputImage2.Size.Height; y++)
+                {
+                    Image2[x, y] = InputImage2.GetPixel(x, y);                // Set pixel color in array at (x,y)
+                }
+            }
         }
 
 
@@ -215,6 +225,22 @@ namespace INFOIBV
 
             outputBox1.Image = (Image)OutputImage1;                         // Display output image
             progressBar.Visible = false;                                    // Hide progress bar
+
+            if (InputImage2 != null)
+            {
+                //Image = newImage;
+                // Copy array to output Bitmap
+                for (int x = 0; x < InputImage2.Size.Width; x++)
+                {
+                    for (int y = 0; y < InputImage2.Size.Height; y++)
+                    {
+                        //OutputImage1.SetPixel(x, y, Image[x, y]);               // Set the pixel color at coordinate (x,y)
+                        OutputImage2.SetPixel(x, y, newImage2[x, y]);
+                    }
+                }
+
+                outputBox2.Image = (Image)OutputImage2;                         // Display output image
+            }
         }
 
 
@@ -400,9 +426,9 @@ namespace INFOIBV
                     {
                         if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && (Image1[x + a, y + b].R == 255 || Image2[x + a, y + b].R == 255))
                         {
-                            newImage1[x + a, y + b] = updatedColor;
+                            newImage2[x + a, y + b] = updatedColor;
                         }
-                        else newImage1[x, y] = updatedColor;
+                        else newImage2[x, y] = updatedColor;
                     }
                 }
             }
