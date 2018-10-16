@@ -97,7 +97,7 @@ namespace INFOIBV
 
             NoAutoContrHistogram();
 
-            // Copy array to output Bitmap
+   /*         // Copy array to output Bitmap
             for (int x = 0; x < InputImage1.Size.Width; x++)
             {
                 for (int y = 0; y < InputImage1.Size.Height; y++)
@@ -107,7 +107,7 @@ namespace INFOIBV
             }
             
             outputBox1.Image = (Image)OutputImage1;                         // Display output image
-            progressBar.Visible = false;                                    // Hide progress bar
+            progressBar.Visible = false;           */                         // Hide progress bar
         }
 
 
@@ -134,7 +134,7 @@ namespace INFOIBV
                         OutputImage1.SetPixel(x, y, Color.FromArgb(255, 255, 255, 255));
                 }
 
-            pictureBox2.Image = (Image) OutputImage1;                         // Display output image
+            outputBox1.Image = (Image) OutputImage1;                         // Display output image
             progressBar.Visible = false;             
       
         }
@@ -210,103 +210,6 @@ namespace INFOIBV
             return false;
         }
 
-
-
-
-
-
-
-        
-
-        void ColorShapes()
-        {
-            bool useN8Seq = true;
-
-            Color foreGrC = Color.FromArgb(255, 255, 255, 255);
-            Color backGrC = Color.FromArgb(255, 0, 0, 0);
-
-
-
-            
-
-            int[,] N4Seq = new int[,] { { -1, 1, -1 }, { 1, -1, -1 }, { -1, -1, -1 } }; //alleen boven en links vd de middelste
-            int[,] N8Seq = new int[,] { { 1, 1, 1 }, { 1, -1, -1 }, { -1, -1, -1 } }; //links vd middelste en de bovenste rij
-            int[,] usedSeq = new int[3, 3];
-            if (useN8Seq)
-                usedSeq = N8Seq;
-            else
-                usedSeq = N4Seq;
-
-            for (int v = 1; v < InputImage1.Size.Height - 1; v++) //from 1 until height -1 to fit 3x3 usedSeq on the current pixel
-                for (int u = 1; u < InputImage1.Size.Width - 1; u++)
-                {
-                    if (Image[u, v] == foreGrC)
-                    {
-                        Color Neighbour = CheckNeighbPixels(usedSeq, u, v, backGrC);
-                        if (Neighbour != Color.FromArgb(-1, -1, -1, -1))
-                            Image[u, v] = Neighbour;
-                        else
-                            addNewColorTag();
-
-                    }
-                }
-
-            newImage = Image;
-            toOutputBitmap();
-        }
-
-
-        void addNewColorTag()
-        {
-            //nog definieren dat hij Image[u,v] hier nu een nieuwe niet gebruikte kleur geeft.
-
-            //EN: nadat de hele image is doorlopen. nog de collision structuren bij elkaar voegen.
-        }
-
-
-
-
-
-
-
-
-        Stack<Point> collisionPixels = new Stack<Point>();
-        /// <summary>
-        ///  if this returns the backGrC, it has no previously processed foregr pixels. If there is a processed pixel, it gives back the first processed color it encounters.
-        /// </summary>
-        /// <returns></returns>
-        Color CheckNeighbPixels(int[,] usedSeq, int u, int v, Color backGrC)
-        {
-            int processedPix = 0;
-            Color returnNeighb = Color.FromArgb(-1,-1,-1,-1); //not an existing color
-
-            for (int x = 0; x < usedSeq.GetLength(0); x++)
-            {
-                for (int y = 0; y < usedSeq.GetLength(1); y++)
-                {
-
-                    if (usedSeq[x, y] == 1) //if this neighbouring pixel must be checked,
-                    {
-                        Color neighbour = Image[u - 1 + x, v - 1 + y];
-                        if (neighbour != backGrC)
-                        {
-                            if (processedPix == 0)
-                            {
-                                returnNeighb = neighbour;
-                                continue;
-                            }
-                            else if (returnNeighb != neighbour) //collision is found
-                            {
-                                collisionPixels.Push(new Point(u, v)); //save collision to merge the touching structures later.
-                                returnNeighb = neighbour;
-                            }
-                        }
-                    }
-                }
-            }
-
-              return returnNeighb;
-        }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
