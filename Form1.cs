@@ -100,7 +100,7 @@ namespace INFOIBV
                     ApplyOpeningClosingFilter(false);
                 else if (ValueRadio.Checked)
                     kernelInput.Text = "Unique values: " + valueCount(generateHistogram(Image1));
-                else if (MinRadio.Checked)
+                else if (MinMaxRadio.Checked)
                     ApplyErosionDilationFilter(true, true);
                 else if (complementRadio.Checked)
                     //kernelInput.Text = detectBackground(generateHistogram(ref alow, ref ahigh)).ToString();

@@ -43,8 +43,7 @@
             this.DilationRadio = new System.Windows.Forms.RadioButton();
             this.OpeningRadio = new System.Windows.Forms.RadioButton();
             this.ClosingRadio = new System.Windows.Forms.RadioButton();
-            this.MinRadio = new System.Windows.Forms.RadioButton();
-            this.MaxRadio = new System.Windows.Forms.RadioButton();
+            this.MinMaxRadio = new System.Windows.Forms.RadioButton();
             this.ValueRadio = new System.Windows.Forms.RadioButton();
             this.BoundaryRadio = new System.Windows.Forms.RadioButton();
             this.FourierRadio = new System.Windows.Forms.RadioButton();
@@ -199,27 +198,16 @@
             this.ClosingRadio.Text = "Closing";
             this.ClosingRadio.UseVisualStyleBackColor = true;
             // 
-            // MinRadio
+            // MinMaxRadio
             // 
-            this.MinRadio.AutoSize = true;
-            this.MinRadio.Location = new System.Drawing.Point(714, 402);
-            this.MinRadio.Name = "MinRadio";
-            this.MinRadio.Size = new System.Drawing.Size(42, 17);
-            this.MinRadio.TabIndex = 13;
-            this.MinRadio.TabStop = true;
-            this.MinRadio.Text = "Min";
-            this.MinRadio.UseVisualStyleBackColor = true;
-            // 
-            // MaxRadio
-            // 
-            this.MaxRadio.AutoSize = true;
-            this.MaxRadio.Location = new System.Drawing.Point(714, 426);
-            this.MaxRadio.Name = "MaxRadio";
-            this.MaxRadio.Size = new System.Drawing.Size(45, 17);
-            this.MaxRadio.TabIndex = 14;
-            this.MaxRadio.TabStop = true;
-            this.MaxRadio.Text = "Max";
-            this.MaxRadio.UseVisualStyleBackColor = true;
+            this.MinMaxRadio.AutoSize = true;
+            this.MinMaxRadio.Location = new System.Drawing.Point(714, 402);
+            this.MinMaxRadio.Name = "MinMaxRadio";
+            this.MinMaxRadio.Size = new System.Drawing.Size(68, 17);
+            this.MinMaxRadio.TabIndex = 13;
+            this.MinMaxRadio.TabStop = true;
+            this.MinMaxRadio.Text = "Min Max ";
+            this.MinMaxRadio.UseVisualStyleBackColor = true;
             // 
             // ValueRadio
             // 
@@ -332,8 +320,7 @@
             this.Controls.Add(this.FourierRadio);
             this.Controls.Add(this.BoundaryRadio);
             this.Controls.Add(this.ValueRadio);
-            this.Controls.Add(this.MaxRadio);
-            this.Controls.Add(this.MinRadio);
+            this.Controls.Add(this.MinMaxRadio);
             this.Controls.Add(this.ClosingRadio);
             this.Controls.Add(this.OpeningRadio);
             this.Controls.Add(this.DilationRadio);
@@ -377,8 +364,7 @@
         private System.Windows.Forms.RadioButton DilationRadio;
         private System.Windows.Forms.RadioButton OpeningRadio;
         private System.Windows.Forms.RadioButton ClosingRadio;
-        private System.Windows.Forms.RadioButton MinRadio;
-        private System.Windows.Forms.RadioButton MaxRadio;
+        private System.Windows.Forms.RadioButton MinMaxRadio;
         private System.Windows.Forms.RadioButton ValueRadio;
         private System.Windows.Forms.RadioButton BoundaryRadio;
         private System.Windows.Forms.RadioButton FourierRadio;
