@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Numerics;
 
 namespace INFOIBV
 {
@@ -20,6 +21,7 @@ namespace INFOIBV
         Color[,] Image2;
         Color[,] newImage1;
         Color[,] newImage2;
+        
 
         public INFOIBV()
         {
@@ -105,6 +107,8 @@ namespace INFOIBV
                 else if (complementRadio.Checked)
                     //kernelInput.Text = detectBackground(generateHistogram(ref alow, ref ahigh)).ToString();
                     GenerateComplement();
+                else if (FourierRadio.Checked)
+                   WritePointArr(FourierComponents());
                 
                 toOutputBitmap();
 
@@ -113,6 +117,12 @@ namespace INFOIBV
 
 
 
+
+        Point[] FourierComponents()
+        {
+          //  Vec
+            return new Point[0];
+        }
 
 
 
@@ -192,15 +202,18 @@ namespace INFOIBV
                 }
             }
 
-
-            // Copy input Bitmap to array            
-            for (int x = 0; x < InputImage2.Size.Width; x++)
+            if(InputImage2 != null)
             {
-                for (int y = 0; y < InputImage2.Size.Height; y++)
+                // Copy input Bitmap to array            
+                for (int x = 0; x < InputImage2.Size.Width; x++)
                 {
-                    Image2[x, y] = InputImage2.GetPixel(x, y);                // Set pixel color in array at (x,y)
+                    for (int y = 0; y < InputImage2.Size.Height; y++)
+                    {
+                        Image2[x, y] = InputImage2.GetPixel(x, y);                // Set pixel color in array at (x,y)
+                    }
                 }
             }
+
         }
 
 
