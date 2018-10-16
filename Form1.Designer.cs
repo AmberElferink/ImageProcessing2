@@ -43,8 +43,7 @@
             this.DilationRadio = new System.Windows.Forms.RadioButton();
             this.OpeningRadio = new System.Windows.Forms.RadioButton();
             this.ClosingRadio = new System.Windows.Forms.RadioButton();
-            this.MinRadio = new System.Windows.Forms.RadioButton();
-            this.MaxRadio = new System.Windows.Forms.RadioButton();
+            this.MinMaxRadio = new System.Windows.Forms.RadioButton();
             this.ValueRadio = new System.Windows.Forms.RadioButton();
             this.BoundaryRadio = new System.Windows.Forms.RadioButton();
             this.FourierRadio = new System.Windows.Forms.RadioButton();
@@ -53,6 +52,8 @@
             this.LoadImageButton2 = new System.Windows.Forms.Button();
             this.imageFileName2 = new System.Windows.Forms.TextBox();
             this.MessageBox2 = new System.Windows.Forms.TextBox();
+            this.complementRadio = new System.Windows.Forms.RadioButton();
+            this.forceBinary = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outputBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -137,7 +138,7 @@
             // 
             // kernelInput
             // 
-            this.kernelInput.Location = new System.Drawing.Point(714, 118);
+            this.kernelInput.Location = new System.Drawing.Point(713, 85);
             this.kernelInput.Multiline = true;
             this.kernelInput.Name = "kernelInput";
             this.kernelInput.Size = new System.Drawing.Size(216, 128);
@@ -146,18 +147,17 @@
             // RightAsInput
             // 
             this.RightAsInput.AutoSize = true;
-            this.RightAsInput.Location = new System.Drawing.Point(714, 85);
+            this.RightAsInput.Location = new System.Drawing.Point(714, 45);
             this.RightAsInput.Name = "RightAsInput";
             this.RightAsInput.Size = new System.Drawing.Size(134, 17);
             this.RightAsInput.TabIndex = 8;
             this.RightAsInput.Text = "Right image(s) as Input";
             this.RightAsInput.UseVisualStyleBackColor = true;
-            this.RightAsInput.CheckedChanged += new System.EventHandler(this.RightAsInput_CheckedChanged);
             // 
             // ErosionRadio
             // 
             this.ErosionRadio.AutoSize = true;
-            this.ErosionRadio.Location = new System.Drawing.Point(714, 262);
+            this.ErosionRadio.Location = new System.Drawing.Point(714, 271);
             this.ErosionRadio.Name = "ErosionRadio";
             this.ErosionRadio.Size = new System.Drawing.Size(60, 17);
             this.ErosionRadio.TabIndex = 9;
@@ -168,7 +168,7 @@
             // DilationRadio
             // 
             this.DilationRadio.AutoSize = true;
-            this.DilationRadio.Location = new System.Drawing.Point(714, 286);
+            this.DilationRadio.Location = new System.Drawing.Point(713, 294);
             this.DilationRadio.Name = "DilationRadio";
             this.DilationRadio.Size = new System.Drawing.Size(60, 17);
             this.DilationRadio.TabIndex = 10;
@@ -198,27 +198,16 @@
             this.ClosingRadio.Text = "Closing";
             this.ClosingRadio.UseVisualStyleBackColor = true;
             // 
-            // MinRadio
+            // MinMaxRadio
             // 
-            this.MinRadio.AutoSize = true;
-            this.MinRadio.Location = new System.Drawing.Point(714, 402);
-            this.MinRadio.Name = "MinRadio";
-            this.MinRadio.Size = new System.Drawing.Size(42, 17);
-            this.MinRadio.TabIndex = 13;
-            this.MinRadio.TabStop = true;
-            this.MinRadio.Text = "Min";
-            this.MinRadio.UseVisualStyleBackColor = true;
-            // 
-            // MaxRadio
-            // 
-            this.MaxRadio.AutoSize = true;
-            this.MaxRadio.Location = new System.Drawing.Point(714, 426);
-            this.MaxRadio.Name = "MaxRadio";
-            this.MaxRadio.Size = new System.Drawing.Size(45, 17);
-            this.MaxRadio.TabIndex = 14;
-            this.MaxRadio.TabStop = true;
-            this.MaxRadio.Text = "Max";
-            this.MaxRadio.UseVisualStyleBackColor = true;
+            this.MinMaxRadio.AutoSize = true;
+            this.MinMaxRadio.Location = new System.Drawing.Point(714, 402);
+            this.MinMaxRadio.Name = "MinMaxRadio";
+            this.MinMaxRadio.Size = new System.Drawing.Size(68, 17);
+            this.MinMaxRadio.TabIndex = 13;
+            this.MinMaxRadio.TabStop = true;
+            this.MinMaxRadio.Text = "Min Max ";
+            this.MinMaxRadio.UseVisualStyleBackColor = true;
             // 
             // ValueRadio
             // 
@@ -295,11 +284,34 @@
             this.MessageBox2.Size = new System.Drawing.Size(256, 20);
             this.MessageBox2.TabIndex = 23;
             // 
+            // complementRadio
+            // 
+            this.complementRadio.AutoSize = true;
+            this.complementRadio.Location = new System.Drawing.Point(714, 234);
+            this.complementRadio.Name = "complementRadio";
+            this.complementRadio.Size = new System.Drawing.Size(171, 17);
+            this.complementRadio.TabIndex = 24;
+            this.complementRadio.TabStop = true;
+            this.complementRadio.Text = "Complementary (inverse) image";
+            this.complementRadio.UseVisualStyleBackColor = true;
+            // 
+            // forceBinary
+            // 
+            this.forceBinary.AutoSize = true;
+            this.forceBinary.Location = new System.Drawing.Point(714, 62);
+            this.forceBinary.Name = "forceBinary";
+            this.forceBinary.Size = new System.Drawing.Size(160, 17);
+            this.forceBinary.TabIndex = 25;
+            this.forceBinary.Text = "Force Binary (Threshold first)";
+            this.forceBinary.UseVisualStyleBackColor = true;
+            // 
             // INFOIBV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 729);
+            this.Controls.Add(this.forceBinary);
+            this.Controls.Add(this.complementRadio);
             this.Controls.Add(this.MessageBox2);
             this.Controls.Add(this.imageFileName2);
             this.Controls.Add(this.LoadImageButton2);
@@ -308,8 +320,7 @@
             this.Controls.Add(this.FourierRadio);
             this.Controls.Add(this.BoundaryRadio);
             this.Controls.Add(this.ValueRadio);
-            this.Controls.Add(this.MaxRadio);
-            this.Controls.Add(this.MinRadio);
+            this.Controls.Add(this.MinMaxRadio);
             this.Controls.Add(this.ClosingRadio);
             this.Controls.Add(this.OpeningRadio);
             this.Controls.Add(this.DilationRadio);
@@ -353,8 +364,7 @@
         private System.Windows.Forms.RadioButton DilationRadio;
         private System.Windows.Forms.RadioButton OpeningRadio;
         private System.Windows.Forms.RadioButton ClosingRadio;
-        private System.Windows.Forms.RadioButton MinRadio;
-        private System.Windows.Forms.RadioButton MaxRadio;
+        private System.Windows.Forms.RadioButton MinMaxRadio;
         private System.Windows.Forms.RadioButton ValueRadio;
         private System.Windows.Forms.RadioButton BoundaryRadio;
         private System.Windows.Forms.RadioButton FourierRadio;
@@ -363,6 +373,8 @@
         private System.Windows.Forms.Button LoadImageButton2;
         private System.Windows.Forms.TextBox imageFileName2;
         private System.Windows.Forms.TextBox MessageBox2;
+        private System.Windows.Forms.RadioButton complementRadio;
+        private System.Windows.Forms.CheckBox forceBinary;
     }
 }
 
