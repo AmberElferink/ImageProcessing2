@@ -297,6 +297,7 @@ namespace INFOIBV
         
         void resetForApply()
         {
+            MessageBox2.Text = "";
             if (InputImage1 == null) return;                                 // Get out if no input image
             if (OutputImage1 != null) OutputImage1.Dispose();                 // Reset output image
             OutputImage1 = new Bitmap(InputImage1.Size.Width, InputImage1.Size.Height); // Create new output image
