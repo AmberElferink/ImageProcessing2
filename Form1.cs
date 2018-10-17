@@ -130,12 +130,23 @@ namespace INFOIBV
 
         Vector[] FourierComponents()
         {
+            int amountSamples = 1;
+
+            try
+            {
+                amountSamples = int.Parse(textBox1.Text);
+            }
+            catch
+            {
+                MessageBox2.Text = "please enter an integer";
+            }
+
             drawPoint[] points = TraceBoundary();
             drawPoint x0 = new drawPoint(-1, -1);
-            Vector[] polarCoords = new Vector[points.Length / 30 + 1];
+            Vector[] polarCoords = new Vector[points.Length / amountSamples + 1];
 
             int polarCoordIndex = 0;
-            for(int i = 0; i < points.Length; i = i + 30)
+            for(int i = 0; i < points.Length; i = i + amountSamples)
             {
                 int xlength = points[i].X - x0.X;
                 int ylength = points[i].Y - x0.Y;
@@ -849,6 +860,20 @@ namespace INFOIBV
 
             outputBox1.Image = (Image)OutputImage1;                         // Display output image
             progressBar.Visible = false;
+        }
+
+        private void FourierRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (FourierRadio.Checked)
+                textBox1.ReadOnly = false;
+            else
+                textBox1.ReadOnly = true;
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
