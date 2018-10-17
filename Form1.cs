@@ -202,15 +202,49 @@ namespace INFOIBV
 
 
 
-        private void ApplyThresholdFilter(Image image)
+        private void ApplyThresholdFilter(int imagenr)
         {
+            int inputImageW;
+            int inputImageH;
+            Color[,] img; 
 
+
+
+            if (imagenr == 1)
+            {
+
+                inputImageW = InputImage1.Size.Width;
+                inputImageH = InputImage1.Size.Height;
+
+                img = new Color[inputImageW, inputImageH];
+
+                for (int x = 0; x < inputImageW; x++)
+                    for (int y = 0; y < inputImageH; y++)
+                    {
+                        img[x, y] = Image1[x, y];
+                    }
+            }
+
+            else
+            {
+                inputImageW = InputImage2.Size.Width;
+                inputImageH = InputImage2.Size.Height;
+
+                img = new Color[inputImageW, inputImageH];
+
+                for (int x = 0; x < inputImageW; x++)
+                    for (int y = 0; y < inputImageH; y++)
+                    {
+                        img[x, y] = Image2[x, y];
+                    }
+            }
+                
 
             int thresholdColor = 0;
             int thresholdLimit = 125;      // threshold wordt afgelezen van trackbar
-            for (int x = 0; x < InputImage1.Size.Width; x++)
+            for (int x = 0; x < inputImageW; x++)
             {
-                for (int y = 0; y < InputImage1.Size.Height; y++)
+                for (int y = 0; y < inputImageH; y++)
                 {
                     if (Image1[x, y].R < thresholdLimit)
                     {
@@ -221,15 +255,31 @@ namespace INFOIBV
                         thresholdColor = 255;
                     }
                     Color updatedColor = Color.FromArgb(thresholdColor, thresholdColor, thresholdColor);
-                    newImage1[x, y] = updatedColor;
+                    if(imagenr == 1)
+                      newImage1[x, y] = updatedColor;
+                    else 
+                      newImage2[x, y] = updatedColor;
                 }
             }
+            if(imagenr == 1)
+            {
+                for (int x = 0; x < inputImageW; x++)
+                    for (int y = 0; y < inputImageH; y++)
+                    {
+                        Image1[x, y] = newImage1[x, y];
+                    }
+            }
+            else
+            {
+                for (int x = 0; x < inputImageW; x++)
+                    for (int y = 0; y < inputImageH; y++)
+                    {
+                        Image2[x, y] = newImage2[x, y];
+                    }
+            }
 
-            for (int x = 0; x < InputImage1.Width; x++)
-                for (int y = 0; y < InputImage1.Height; y++)
-                {
-                        InputImage1.SetPixel(x, y, newImage1[x, y]);
-                }
+
+
         }
 
 
@@ -375,8 +425,7 @@ namespace INFOIBV
             }
             catch (Exception e)
             {
-                //DIT MOET EIGENLIJK MessageBox2 ZIJN KEEP THAT IN MIND PLS
-                this.kernelInput.Text = e.Message;
+                MessageBox2.Text = e.Message;
                 return null;
             }
         }
@@ -403,7 +452,7 @@ namespace INFOIBV
                     int grey = (pixelColor.R + pixelColor.G + pixelColor.B) / 3;    // aanmaken grijswaarde op basis van RGB-values
                     Color updatedColor = Color.FromArgb(grey, grey, grey);          // toepassen grijswaarde
                     histogram[grey]++;                                              // histogram updaten
-                    progressBar.PerformStep();                                      // Increment progress bar
+
                 }
             }
             return histogram;
@@ -431,8 +480,14 @@ namespace INFOIBV
         /// <summary>
         /// Checks if a number is binary (used to check the valuecount of a histogram for binary images).
         /// </summary>
-        bool isBinary(int input)
+        bool isBinary(int input, int imagenr)
         {
+            if (checkBinary.Checked)
+            {
+                ApplyThresholdFilter(imagenr);
+                return true;
+            }
+
             if (input == 2) return true;
             else return false;
         }
@@ -445,7 +500,7 @@ namespace INFOIBV
         /// </summary>
         int detectBackground(int[] histogram)
         {
-            if (!isBinary(valueCount(histogram))) return 256;
+           // if (!isBinary(valueCount(histogram))) return 256;
 
             int a = 0;
             int b = 0;
@@ -492,9 +547,11 @@ namespace INFOIBV
         /// <summary>
         /// Dilates a binary image using the provided matrix as structuring element.
         /// </summary>
-        void CalculateDilationBinary(int x, int y, int[,] matrix, int halfBoxSize, bool isMinMax)
+        void CalculateDilationBinary(int x, int y, int[,] matrix, int halfBoxSize, bool isMinMax, int backGrC)
         {
             int newColor = 0;
+            if(backGrC == 0)
+              newColor = 255;
             Color updatedColor = Color.FromArgb(newColor, newColor, newColor);
             for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
             {
@@ -503,7 +560,7 @@ namespace INFOIBV
                     if (!isMinMax)
                     {
                         // every pixel that exists on the structuring element and is currently in the background gets transformed to the foreground
-                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && Image1[x + a, y + b].R == 255)
+                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && Image1[x + a, y + b].R == backGrC)
                         {
                             newImage1[x + a, y + b] = updatedColor;
                         }
@@ -512,7 +569,7 @@ namespace INFOIBV
                     }
                     else
                     {
-                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && (Image1[x + a, y + b].R == 255 || Image2[x + a, y + b].R == 255))
+                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && (Image1[x + a, y + b].R == backGrC || Image2[x + a, y + b].R == backGrC))
                         {
                             newImage2[x + a, y + b] = updatedColor;
                         }
@@ -528,9 +585,9 @@ namespace INFOIBV
         /// <summary>
         /// Erodes a binary image using the provided matrix as a structuring element.
         /// </summary>
-        void CalculateErosionBinary(int x, int y, int[,] matrix, int halfBoxSize, bool isMinMax)
+        void CalculateErosionBinary(int x, int y, int[,] matrix, int halfBoxSize, bool isMinMax, int backGrC)
         {
-            int newcolor = 255;
+            int newcolor = backGrC;
             Color updatedColor = Color.FromArgb(newcolor, newcolor, newcolor);
             for (int a = (halfBoxSize * -1); a <= halfBoxSize; a++)
             {
@@ -540,7 +597,7 @@ namespace INFOIBV
                     {
                         // if a pixel in the structuring element is detected that isn't in the foreground, 
                         // the hotspot gets transformed to the background and the function ends
-                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && Image1[x + a, y + b].R == 255)
+                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && Image1[x + a, y + b].R == backGrC)
                         {
                             newImage1[x, y] = updatedColor;
                             return;
@@ -548,7 +605,7 @@ namespace INFOIBV
                     }
                     else
                     {
-                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && (Image1[x + a, y + b].R == 255 || Image2[x + a, y + b].R == 255))
+                        if (matrix[a + halfBoxSize, b + halfBoxSize] != -1 && (Image1[x + a, y + b].R == backGrC || Image2[x + a, y + b].R == backGrC))
                         {
                             newImage1[x, y] = updatedColor;
                             return;
@@ -651,16 +708,33 @@ namespace INFOIBV
             int newColor1 = 0;
             int newColor2 = 0;
             bool binary2 = false;
+            int backGrColor = 0;
+            int foreGrColor = 255;
+
+            if(checkBlackBackground.Checked)
+            {
+                backGrColor = 0;
+                foreGrColor = 255;
+            }
+            else
+            {
+                backGrColor = 255;
+                foreGrColor = 0;
+            }
             
             //check if the image is binary
-            bool binary = isBinary(valueCount(generateHistogram(Image1)));
+            bool binary = isBinary(valueCount(generateHistogram(Image1)), 1);
 
             if (isMinMax)
             {
-                if (InputImage1.Size.Width != InputImage2.Size.Width || InputImage1.Size.Height != InputImage2.Size.Height) return;
+                if (InputImage1.Size.Width != InputImage2.Size.Width || InputImage1.Size.Height != InputImage2.Size.Height)
+                {
+                    MessageBox2.Text = "Please give two images with the same dimensions";
+                    return;
+                }
                 else
                 {
-                    binary2 = isBinary(valueCount(generateHistogram(Image2)));
+                    binary2 = isBinary(valueCount(generateHistogram(Image2)), 2);
                 }
             }
 
@@ -672,6 +746,7 @@ namespace INFOIBV
                 //loop through the image
                 for (int x = halfBoxSize; x < InputImage1.Size.Width - halfBoxSize; x++)
                 {
+                    progressBar.PerformStep();
                     for (int y = halfBoxSize; y < InputImage1.Size.Height - halfBoxSize; y++)
                     {
                         if (!isMinMax)
@@ -679,14 +754,14 @@ namespace INFOIBV
                             // binary images: binary erosion/dilation
                             if (binary)
                             {
-                                if (Image1[x, y].R == 0)
+                                if (Image1[x, y].R == foreGrColor)
                                 {
-                                    if (isErosion) CalculateErosionBinary(x, y, matrix, halfBoxSize, false);
-                                    else CalculateDilationBinary(x, y, matrix, halfBoxSize, false);
+                                    if (isErosion) CalculateErosionBinary(x, y, matrix, halfBoxSize, false, backGrColor);
+                                    else CalculateDilationBinary(x, y, matrix, halfBoxSize, false, backGrColor);
                                 }
                                 else
                                 {
-                                    newColor1 = 255;
+                                    newColor1 = backGrColor;
                                     Color UpdatedColor = Color.FromArgb(newColor1, newColor1, newColor1);
                                     newImage1[x, y] = UpdatedColor;
                                 }
@@ -699,19 +774,19 @@ namespace INFOIBV
                                 Color updatedColor = Color.FromArgb(newColor1, newColor1, newColor1);
                                 newImage1[x, y] = updatedColor;
                             }
-                            progressBar.PerformStep();
+                           
                         }
                         else
                         {
                             if (binary && binary2)
                             {
-                                if (Image1[x, y].R == 0 || Image2[x, y].R == 0) {
-                                    CalculateErosionBinary(x, y, matrix, halfBoxSize, true);
-                                    CalculateDilationBinary(x, y, matrix, halfBoxSize, true);
+                                if (Image1[x, y].R == foreGrColor || Image2[x, y].R == foreGrColor) {
+                                    CalculateErosionBinary(x, y, matrix, halfBoxSize, true, backGrColor);
+                                    CalculateDilationBinary(x, y, matrix, halfBoxSize, true, backGrColor);
                                 }
                                 else
                                 {
-                                    newColor1 = 255;
+                                    newColor1 = backGrColor;
                                     Color UpdatedColor = Color.FromArgb(newColor1, newColor1, newColor1);
                                     newImage1[x, y] = UpdatedColor;
                                     newImage2[x, y] = UpdatedColor;
@@ -726,7 +801,7 @@ namespace INFOIBV
                                 Color updatedColor2 = Color.FromArgb(newColor2, newColor2, newColor2);
                                 newImage2[x, y] = updatedColor2;
                             }
-                            progressBar.PerformStep();
+                           
                         }
                     }
                 }
