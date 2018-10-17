@@ -322,7 +322,7 @@
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(949, 15);
+            this.chart1.Location = new System.Drawing.Point(984, 26);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
@@ -334,7 +334,7 @@
             series2.Name = "Cn Imaginary";
             this.chart1.Series.Add(series1);
             this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(300, 378);
+            this.chart1.Size = new System.Drawing.Size(691, 669);
             this.chart1.TabIndex = 26;
             this.chart1.Text = "Cn plot";
             title1.Name = "Fourier Transform";
@@ -345,7 +345,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1261, 729);
+            this.ClientSize = new System.Drawing.Size(1696, 729);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.forceBinary);
             this.Controls.Add(this.complementRadio);
