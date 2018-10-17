@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.LoadImageButton1 = new System.Windows.Forms.Button();
             this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageFileName1 = new System.Windows.Forms.TextBox();
@@ -54,10 +59,12 @@
             this.MessageBox2 = new System.Windows.Forms.TextBox();
             this.complementRadio = new System.Windows.Forms.RadioButton();
             this.forceBinary = new System.Windows.Forms.CheckBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outputBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outputBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // LoadImageButton1
@@ -305,11 +312,41 @@
             this.forceBinary.Text = "Force Binary (Threshold first)";
             this.forceBinary.UseVisualStyleBackColor = true;
             // 
+            // chart1
+            // 
+            chartArea1.AxisX.Title = "n";
+            chartArea1.AxisY.Title = "Cn Value";
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Alignment = System.Drawing.StringAlignment.Far;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(949, 15);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Cn Real";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "Cn Imaginary";
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(300, 378);
+            this.chart1.TabIndex = 26;
+            this.chart1.Text = "Cn plot";
+            title1.Name = "Fourier Transform";
+            title1.Text = "Fourier Descriptors";
+            this.chart1.Titles.Add(title1);
+            // 
             // INFOIBV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(982, 729);
+            this.ClientSize = new System.Drawing.Size(1261, 729);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.forceBinary);
             this.Controls.Add(this.complementRadio);
             this.Controls.Add(this.MessageBox2);
@@ -342,6 +379,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.outputBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.outputBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -375,6 +413,7 @@
         private System.Windows.Forms.TextBox MessageBox2;
         private System.Windows.Forms.RadioButton complementRadio;
         private System.Windows.Forms.CheckBox forceBinary;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
 
