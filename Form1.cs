@@ -728,6 +728,11 @@ namespace INFOIBV
 
             if (isMinMax)
             {
+                if(InputImage2 == null)
+                {
+                    MessageBox2.Text = "Please load an image into 'Load Image 2' button";
+                    return;
+                }
                 if (InputImage1.Size.Width != InputImage2.Size.Width || InputImage1.Size.Height != InputImage2.Size.Height)
                 {
                     MessageBox2.Text = "Please give two images with the same dimensions";
