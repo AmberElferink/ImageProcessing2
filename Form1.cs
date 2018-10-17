@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Windows;
+//using System.Windows.Forms.
 
 namespace INFOIBV
 {
@@ -134,7 +135,7 @@ namespace INFOIBV
         Vector[] FourierComponents()
         {
             drawPoint[] points = TraceBoundary();
-            drawPoint x0 = points[0];
+            drawPoint x0 = new drawPoint(-1, -1);
             Vector[] polarCoords = new Vector[points.Length / 30 + 1];
 
             int polarCoordIndex = 0;
@@ -149,7 +150,7 @@ namespace INFOIBV
             }
 
             int nmax = 7;
-            int M = polarCoordIndex;
+            float M = polarCoordIndex;
             Vector[] Cn = new Vector[nmax];
 
             float sumX = 0;
@@ -178,8 +179,16 @@ namespace INFOIBV
                 Cn[n] = new Vector(1 / M * sumX, 1 / M * sumY);
             }
 
+            float[] CnReal = new float[nmax];
+            float[] CnImag = new float[nmax];
+            for(int n = 0; n < nmax; n++)
+            {
+                CnReal[n] = (float)Cn[n].X;
+                CnImag[n] = (float)Cn[n].Y;
+            }
             //Vector ReC0 = 1 / polarCoordIndex *
-
+            chart1.Series[0].Points.DataBindY(CnReal);
+            chart1.Series[1].Points.DataBindY(CnImag);
             return Cn;
         }
 
