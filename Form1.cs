@@ -82,10 +82,6 @@ namespace INFOIBV
                 MessageBox2.Text = "Please Load an image first.";
                 return;
             }
-            if( forceBinary.Checked)
-            {
-
-            }
             if (BoundaryRadio.Checked)
             {
                 drawPoint[] boundary = TraceBoundary();
@@ -854,6 +850,5 @@ namespace INFOIBV
             outputBox1.Image = (Image)OutputImage1;                         // Display output image
             progressBar.Visible = false;
         }
-
     }
 }
